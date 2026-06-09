@@ -1,23 +1,17 @@
-/* ================================================================
-   Watermark Pro · CapsulaWebs — Rediseño 2025
-   ================================================================ */
-
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
 
 :root {
-    --bg:        #0a0a0b;
-    --surface:   #111113;
-    --surface2:  #18181b;
-    --border:    #27272a;
-    --accent:    #6366f1;
-    --text:      #fafafa;
-    --muted:     #71717a;
-    --success:   #22c55e;
-    --danger:    #f43f5e;
-    --radius:    16px;
-    --radius-sm: 10px;
-    --nav-h:     56px;
-    --sidebar:   320px;
+    --bg:       #0a0a0b;
+    --surface:  #111113;
+    --surface2: #18181b;
+    --border:   #27272a;
+    --accent:   #6366f1;
+    --text:     #fafafa;
+    --muted:    #71717a;
+    --success:  #22c55e;
+    --danger:   #f43f5e;
+    --r:        14px;
+    --r-sm:     10px;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -28,53 +22,59 @@ html, body {
     color: var(--text);
     font-family: 'Inter', system-ui, sans-serif;
     font-size: 14px;
-    overflow: hidden;
     -webkit-font-smoothing: antialiased;
+    overflow: hidden;
 }
 
 .view-oculta { display: none !important; }
-.error-msg { color: var(--danger); font-size: 13px; font-weight: 600; min-height: 18px; text-align: center; margin-top: 8px; }
 
-/* ── LOGIN ──────────────────────────────────────────────────────── */
+.error-msg {
+    color: var(--danger); font-size: 13px; font-weight: 600;
+    min-height: 20px; text-align: center; margin-top: 6px;
+}
+
+/* ══════════════════════════════════════════
+   LOGIN
+══════════════════════════════════════════ */
 .login-screen {
     position: fixed; inset: 0;
     display: flex; align-items: center; justify-content: center;
-    background: var(--bg); z-index: 200;
+    background: var(--bg); z-index: 999;
 }
 .login-card {
-    width: 90%; max-width: 380px;
+    width: 90%; max-width: 360px;
     background: var(--surface); border: 1px solid var(--border);
     border-radius: 24px; padding: 40px 28px 32px;
-    display: flex; flex-direction: column; gap: 28px;
-    box-shadow: 0 32px 64px rgba(0,0,0,.7);
+    display: flex; flex-direction: column; gap: 24px;
+    box-shadow: 0 32px 64px rgba(0,0,0,.8);
 }
 .login-brand {
-    text-align: center;
-    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    display: flex; flex-direction: column; align-items: center;
+    text-align: center; gap: 10px;
 }
 .login-logo-icon {
-    width: 56px; height: 56px; background: var(--accent); border-radius: 18px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 28px; font-weight: 900; color: #fff;
+    width: 56px; height: 56px; background: var(--accent);
+    border-radius: 16px; display: flex; align-items: center; justify-content: center;
+    font-size: 26px; font-weight: 900; color: #fff;
     box-shadow: 0 0 0 8px rgba(99,102,241,.15);
 }
-.login-brand h1 { font-size: 26px; font-weight: 900; letter-spacing: -.5px; }
-.login-brand p  { font-size: 13px; color: var(--muted); font-weight: 500; }
-.login-fields { display: flex; flex-direction: column; gap: 12px; }
+.login-brand h1 { font-size: 24px; font-weight: 900; letter-spacing: -.5px; }
+.login-brand p  { font-size: 13px; color: var(--muted); }
+
+.login-fields { display: flex; flex-direction: column; gap: 10px; }
 .login-fields input {
-    width: 100%; padding: 16px 18px;
+    width: 100%; padding: 15px 18px;
     background: var(--surface2); border: 1.5px solid var(--border);
-    color: var(--text); border-radius: var(--radius);
-    font-size: 16px; font-weight: 700; letter-spacing: 1.5px;
+    color: var(--text); border-radius: var(--r);
+    font-size: 15px; font-weight: 700; letter-spacing: 2px;
     text-align: center; outline: none; font-family: inherit;
     transition: border-color .2s;
 }
 .login-fields input:focus { border-color: var(--accent); }
 
-/* ── BUTTONS ────────────────────────────────────────────────────── */
 .btn-primary {
     background: var(--accent); color: #fff; border: none;
-    border-radius: var(--radius); padding: 16px 24px;
+    border-radius: var(--r); padding: 15px 24px;
     font-size: 15px; font-weight: 800; cursor: pointer; font-family: inherit;
     transition: background .15s, transform .1s;
 }
@@ -82,159 +82,158 @@ html, body {
 .btn-primary:active { transform: scale(.97); }
 .btn-full { width: 100%; }
 
-/* ================================================================
-   APP LAYOUT — DESKTOP: sidebar fija + main a la derecha
-   ================================================================ */
+/* ══════════════════════════════════════════
+   DESKTOP LAYOUT
+   sidebar 300px fija | preview ocupa el resto
+══════════════════════════════════════════ */
 .app {
     display: flex;
     width: 100vw; height: 100vh;
 }
 
-/* ── SIDEBAR (desktop) ─────────────────────────────────────────── */
+.mobile-nav { display: none; } /* solo mobile */
+
+/* ── Sidebar ── */
 .panel-controles {
-    width: var(--sidebar); min-width: var(--sidebar);
-    height: 100%;
+    width: 300px; min-width: 300px; max-width: 300px;
+    height: 100vh;
     background: var(--surface); border-right: 1px solid var(--border);
     display: flex; flex-direction: column;
-    overflow: hidden; z-index: 10; flex-shrink: 0;
+    overflow: hidden; flex-shrink: 0;
 }
 
 .panel-header {
-    padding: 20px 20px 16px; border-bottom: 1px solid var(--border);
+    padding: 18px 18px 14px; border-bottom: 1px solid var(--border);
     display: flex; align-items: center; justify-content: space-between;
     flex-shrink: 0;
 }
-.brand-mini { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 15px; }
+.brand-mini { display: flex; align-items: center; gap: 9px; font-weight: 800; font-size: 14px; }
 .brand-dot {
-    width: 30px; height: 30px; background: var(--accent); border-radius: 9px;
+    width: 28px; height: 28px; background: var(--accent); border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
-    font-size: 15px; font-weight: 900; color: #fff;
+    font-size: 14px; font-weight: 900; color: #fff;
 }
 .credits-badge {
-    display: flex; align-items: center; gap: 8px;
+    display: flex; align-items: center; gap: 6px;
     background: var(--surface2); border: 1px solid var(--border);
-    border-radius: 40px; padding: 6px 14px;
+    border-radius: 40px; padding: 5px 12px;
 }
-.credits-label { font-size: 11px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
-.credits-num   { font-size: 16px; font-weight: 900; color: var(--success); }
+.credits-label { font-size: 10px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+.credits-num   { font-size: 15px; font-weight: 900; color: var(--success); }
 
 .controls-scroll {
-    flex: 1; overflow-y: auto; padding: 16px 16px 24px;
+    flex: 1; overflow-y: auto; padding: 12px 12px 20px;
     display: flex; flex-direction: column; gap: 8px;
     scrollbar-width: thin; scrollbar-color: var(--border) transparent;
 }
 .controls-scroll::-webkit-scrollbar { width: 4px; }
 .controls-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
-/* ── SECCIONES DE CONTROL ──────────────────────────────────────── */
+/* ── Secciones ── */
 .control-section {
     background: var(--surface2); border: 1px solid var(--border);
-    border-radius: var(--radius); padding: 14px 14px 16px;
+    border-radius: var(--r); padding: 12px 12px 14px;
     display: flex; flex-direction: column; gap: 10px;
 }
 .section-title {
-    font-size: 11px; font-weight: 800; color: var(--muted);
+    font-size: 10px; font-weight: 800; color: var(--muted);
     text-transform: uppercase; letter-spacing: .8px;
 }
 
-/* UPLOAD */
+/* Upload */
 .upload-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .upload-btn {
-    display: flex; flex-direction: column; align-items: center;
-    gap: 4px; padding: 14px 8px;
-    background: var(--surface); border: 1.5px dashed var(--border);
-    border-radius: var(--radius-sm); cursor: pointer;
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    padding: 12px 6px; background: var(--surface);
+    border: 1.5px dashed var(--border); border-radius: var(--r-sm);
+    cursor: pointer; text-align: center; user-select: none;
     transition: border-color .2s, background .2s;
-    text-align: center; user-select: none;
 }
 .upload-btn:hover  { border-color: var(--accent); background: rgba(99,102,241,.05); }
 .upload-btn.loaded { border-style: solid; border-color: var(--accent); background: rgba(99,102,241,.08); }
-.upload-icon  { font-size: 22px; line-height: 1; }
-.upload-label { font-size: 12px; font-weight: 700; color: var(--text); }
-.upload-sub   { font-size: 11px; color: var(--muted); }
+.upload-icon  { font-size: 20px; line-height: 1; }
+.upload-label { font-size: 11px; font-weight: 700; color: var(--text); }
+.upload-sub   { font-size: 10px; color: var(--muted); }
 
-/* FORMATO */
-.toggle-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+/* Formato */
+.toggle-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
 .toggle-btn {
-    display: flex; flex-direction: column; align-items: center;
-    gap: 8px; padding: 12px 6px;
-    background: var(--surface); border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm); color: var(--muted);
-    font-size: 12px; font-weight: 700; cursor: pointer; font-family: inherit;
-    transition: all .15s;
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+    padding: 10px 4px; background: var(--surface);
+    border: 1.5px solid var(--border); border-radius: var(--r-sm);
+    color: var(--muted); font-size: 11px; font-weight: 700;
+    cursor: pointer; font-family: inherit; transition: all .15s;
 }
 .toggle-btn:hover  { border-color: var(--accent); color: var(--text); }
 .toggle-btn.activo { border-color: var(--accent); background: rgba(99,102,241,.12); color: var(--text); }
-.toggle-btn small  { font-weight: 600; color: var(--muted); font-size: 10px; }
+.toggle-btn small  { font-size: 10px; color: var(--muted); }
 .fmt-icon { border: 2px solid currentColor; border-radius: 3px; display: block; }
-.fmt-vertical { width: 18px; height: 22px; }
-.fmt-cuadrado { width: 20px; height: 20px; }
-.fmt-historia { width: 14px; height: 24px; }
-.toggle-btn.activo .fmt-icon { border-color: var(--accent); background: rgba(99,102,241,.25); }
+.fmt-vertical { width: 16px; height: 20px; }
+.fmt-cuadrado { width: 18px; height: 18px; }
+.fmt-historia { width: 12px; height: 22px; }
+.toggle-btn.activo .fmt-icon { border-color: var(--accent); background: rgba(99,102,241,.3); }
 
-/* POSICIÓN */
-.position-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+/* Posición */
+.position-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
 .pos-btn {
-    aspect-ratio: 1; background: var(--surface); border: 1.5px solid var(--border);
-    border-radius: var(--radius-sm); color: var(--muted);
-    font-size: 20px; cursor: pointer; font-family: inherit;
+    aspect-ratio: 1; background: var(--surface);
+    border: 1.5px solid var(--border); border-radius: var(--r-sm);
+    color: var(--muted); font-size: 18px; cursor: pointer; font-family: inherit;
     transition: all .15s; display: flex; align-items: center; justify-content: center;
 }
 .pos-btn:hover  { border-color: var(--accent); color: var(--text); }
 .pos-btn.activo { border-color: var(--accent); background: rgba(99,102,241,.12); color: var(--accent); }
-.pos-center { grid-column: span 2; aspect-ratio: auto; padding: 12px; font-size: 12px; font-weight: 700; }
+.pos-center { grid-column: span 2; aspect-ratio: auto; padding: 10px; font-size: 11px; font-weight: 700; }
 
-/* SLIDERS */
-.slider-row { display: flex; flex-direction: column; gap: 8px; }
-.slider-row + .slider-row { margin-top: 16px; }
-.slider-label { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--muted); }
+/* Sliders */
+.slider-row { display: flex; flex-direction: column; gap: 7px; }
+.slider-label { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--muted); }
 .slider-val   { color: var(--text); font-weight: 800; }
 .slider-pro {
     -webkit-appearance: none; appearance: none;
-    width: 100%; height: 6px; border-radius: 3px;
+    width: 100%; height: 5px; border-radius: 3px;
     background: var(--border); outline: none; cursor: pointer;
 }
 .slider-pro::-webkit-slider-thumb {
     -webkit-appearance: none; appearance: none;
-    width: 20px; height: 20px; border-radius: 50%;
+    width: 18px; height: 18px; border-radius: 50%;
     background: var(--accent); cursor: pointer;
-    box-shadow: 0 0 0 4px rgba(99,102,241,.2);
+    box-shadow: 0 0 0 3px rgba(99,102,241,.25);
 }
 
 .btn-logout {
     background: transparent; border: none; cursor: pointer;
     color: var(--danger); font-size: 13px; font-weight: 700;
-    font-family: inherit; padding: 12px; align-self: center;
-    margin-top: 4px; opacity: .7; transition: opacity .15s;
+    font-family: inherit; padding: 10px; align-self: center;
+    opacity: .7; transition: opacity .15s; margin-top: 2px;
 }
 .btn-logout:hover { opacity: 1; }
 
-/* ── PANEL PREVIEW (desktop) ───────────────────────────────────── */
+/* ── Panel Preview (desktop) ── */
 .panel-preview {
-    flex: 1; height: 100%;
+    flex: 1; height: 100vh;
     display: flex; flex-direction: column;
-    overflow: hidden; position: relative;
-}
-
-/* La mobile-nav NO se muestra en desktop */
-.mobile-nav { display: none; }
-
-.preview-workspace {
-    flex: 1; display: flex; flex-direction: column;
-    align-items: center; justify-content: center;
-    gap: 24px; padding: 32px 24px;
     overflow: hidden;
 }
-.canvas-wrapper {
-    flex: 1; display: flex; align-items: center; justify-content: center;
-    width: 100%; min-height: 0;
+
+.preview-workspace {
+    flex: 1; min-height: 0;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 20px; padding: 28px 24px;
 }
 
-/* ── LIENZO ────────────────────────────────────────────────────── */
+.canvas-wrapper {
+    flex: 1; min-height: 0;
+    display: flex; align-items: center; justify-content: center;
+    width: 100%;
+}
+
+/* ── Lienzo ── */
 .lienzo-producto {
     position: relative; overflow: hidden; background: #000;
-    border: 1px solid #27272a; border-radius: 12px;
-    box-shadow: 0 20px 60px rgba(0,0,0,.8), 0 0 0 1px rgba(255,255,255,.04);
+    border: 1px solid #2a2a2a; border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,.8);
 }
 .foto-fondo {
     position: absolute; inset: 0;
@@ -243,16 +242,15 @@ html, body {
 .empty-state {
     position: absolute; inset: 0;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 10px; color: var(--muted);
+    gap: 8px; color: var(--muted);
 }
-.empty-state span { font-size: 36px; }
-.empty-state p    { font-size: 13px; font-weight: 600; text-align: center; line-height: 1.5; }
+.empty-state span { font-size: 32px; }
+.empty-state p    { font-size: 12px; font-weight: 600; text-align: center; line-height: 1.5; }
 .foto-fondo.has-image .empty-state { display: none; }
 
 .logo-marca-agua {
     position: absolute; z-index: 5;
     object-fit: contain; pointer-events: none;
-    max-width: 80%; max-height: 80%;
 }
 .abajo-derecha    { bottom: 4%; right: 4%; }
 .abajo-izquierda  { bottom: 4%; left: 4%; }
@@ -260,52 +258,52 @@ html, body {
 .arriba-izquierda { top: 4%; left: 4%; }
 .centro-gigante   { top: 50%; left: 50%; transform: translate(-50%, -50%); }
 
-/* Formatos — desktop usa el espacio disponible */
-.formato-post-vertical { aspect-ratio: 4/5;  max-height: 72vh; max-width: calc(72vh * 4/5); width: auto; }
-.formato-post-cuadrado { aspect-ratio: 1/1;  max-height: 72vh; max-width: 72vh;             width: auto; }
-.formato-historia      { aspect-ratio: 9/16; max-height: 72vh; max-width: calc(72vh * 9/16); width: auto; }
+/* Formatos DESKTOP */
+.formato-post-vertical { aspect-ratio: 4/5;  height: min(65vh, 520px); width: auto; }
+.formato-post-cuadrado { aspect-ratio: 1/1;  height: min(65vh, 480px); width: auto; }
+.formato-historia      { aspect-ratio: 9/16; height: min(72vh, 560px); width: auto; }
 
-/* ── BOTÓN DESCARGA ────────────────────────────────────────────── */
+/* ── Botón descarga ── */
 .btn-download {
     display: flex; align-items: center; justify-content: center; gap: 10px;
-    width: 100%; max-width: 340px; padding: 18px 24px;
+    width: 100%; max-width: 320px; padding: 16px 24px;
     background: var(--accent); color: #fff; border: none;
-    border-radius: var(--radius); font-size: 15px; font-weight: 800;
+    border-radius: var(--r); font-size: 15px; font-weight: 800;
     font-family: inherit; cursor: pointer; flex-shrink: 0;
-    transition: background .15s, transform .1s, box-shadow .2s;
     box-shadow: 0 8px 24px rgba(99,102,241,.4);
+    transition: background .15s, transform .1s;
 }
 .btn-download:hover   { background: #818cf8; }
 .btn-download:active  { transform: scale(.97); }
 .btn-download:disabled { background: var(--surface2); color: var(--muted); box-shadow: none; cursor: not-allowed; }
 .btn-dl-icon {
-    width: 28px; height: 28px; background: rgba(255,255,255,.2);
-    border-radius: 8px; display: flex; align-items: center; justify-content: center;
-    font-size: 16px; font-weight: 900; flex-shrink: 0;
+    width: 26px; height: 26px; background: rgba(255,255,255,.2);
+    border-radius: 7px; display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 900; flex-shrink: 0;
 }
 
-/* ================================================================
-   MOBILE — pantalla única con tabs arriba
-   ================================================================ */
+/* ══════════════════════════════════════════
+   MOBILE  ≤ 767px
+   Layout: todo ocupa 100vw × 100vh
+   Nav fija arriba (52px)
+   Ambos paneles son fixed debajo del nav
+   JS alterna qué panel es visible
+══════════════════════════════════════════ */
 @media (max-width: 767px) {
 
-    /* El app ahora es una columna: nav fija arriba + contenido abajo */
-    .app {
-        flex-direction: column;
-    }
+    /* El .app ya no maneja layout en mobile, los paneles son fixed */
+    .app { display: block; position: relative; }
 
-    /* ── NAV MOBILE — siempre visible, pegada arriba ── */
+    /* ── Nav siempre visible ── */
     .mobile-nav {
         display: flex;
-        width: 100vw; height: var(--nav-h);
+        position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+        height: 52px;
         background: var(--surface); border-bottom: 1px solid var(--border);
-        flex-shrink: 0; z-index: 50;
-        /* Sacar del flujo normal para ponerla ENCIMA de los paneles */
-        position: fixed; top: 0; left: 0; right: 0;
     }
     .nav-tab {
         flex: 1; border: none; background: transparent;
-        color: var(--muted); font-size: 15px; font-weight: 800;
+        color: var(--muted); font-size: 14px; font-weight: 800;
         font-family: inherit; cursor: pointer;
         border-bottom: 3px solid transparent; transition: all .15s;
     }
@@ -314,59 +312,98 @@ html, body {
         background: rgba(99,102,241,.04);
     }
 
-    /* ── Ambos paneles ocupan toda la pantalla y se deslizan ── */
+    /* ── Ambos paneles debajo del nav, full screen ── */
     .panel-controles,
     .panel-preview {
         position: fixed;
-        top: var(--nav-h); left: 0;
+        top: 52px; left: 0;
         width: 100vw;
-        height: calc(100vh - var(--nav-h));
-        transition: transform .3s cubic-bezier(.4,0,.2,1);
-        min-width: 0;
-        border-right: none;
+        height: calc(100vh - 52px);
+        transition: transform .3s ease;
+        overflow: hidden;
     }
 
-    /* Estado inicial: controles visibles, preview oculto a la derecha */
-    .panel-controles { transform: translateX(0);      z-index: 20; }
-    .panel-preview   { transform: translateX(100vw);  z-index: 20; background: var(--bg); }
+    /* Controles: visible por defecto */
+    .panel-controles {
+        width: 100vw; min-width: 100vw; max-width: 100vw;
+        transform: translateX(0);
+        border-right: none;
+        z-index: 10;
+    }
+    /* Preview: oculto a la derecha por defecto */
+    .panel-preview {
+        transform: translateX(100vw);
+        background: var(--bg);
+        z-index: 10;
+    }
 
-    /* Clases que JS agrega/quita */
-    .panel-controles.mobile-hidden { transform: translateX(-100vw); }
-    .panel-preview.mobile-visible  { transform: translateX(0); }
+    /* JS clases */
+    .panel-controles.oculto  { transform: translateX(-100vw); }
+    .panel-preview.visible   { transform: translateX(0); }
 
-    /* El panel-header queda visible, no necesita padding-top extra */
-    .panel-controles { padding-top: 0; }
+    /* Controles: el panel-header muestra el badge de créditos */
+    .panel-header {
+        padding: 16px 16px 12px;
+    }
 
-    /* Preview workspace: deja espacio para el botón de descarga */
+    /* Scroll de controles ocupa todo el alto disponible */
+    .controls-scroll {
+        padding: 12px 14px 24px;
+        gap: 10px;
+    }
+
+    /* Secciones más cómodas en mobile */
+    .control-section { padding: 14px 14px 16px; gap: 12px; }
+    .section-title   { font-size: 11px; }
+
+    .upload-btn   { padding: 14px 8px; }
+    .upload-icon  { font-size: 22px; }
+    .upload-label { font-size: 13px; }
+    .upload-sub   { font-size: 11px; }
+
+    .toggle-btn { padding: 12px 6px; font-size: 12px; gap: 8px; }
+    .fmt-vertical { width: 18px; height: 22px; }
+    .fmt-cuadrado { width: 20px; height: 20px; }
+    .fmt-historia { width: 13px; height: 24px; }
+
+    .pos-btn { font-size: 22px; }
+    .pos-center { font-size: 13px; padding: 12px; }
+
+    .slider-label { font-size: 12px; }
+    .slider-pro { height: 6px; }
+    .slider-pro::-webkit-slider-thumb { width: 22px; height: 22px; }
+
+    .btn-logout { font-size: 14px; padding: 14px; }
+
+    /* Preview workspace */
     .preview-workspace {
-        padding: 20px 16px 20px;
+        padding: 16px 14px 16px;
         gap: 16px;
         justify-content: flex-start;
     }
-
-    /* El canvas wrapper ocupa el espacio disponible */
     .canvas-wrapper {
         flex: 1; min-height: 0;
-        align-items: flex-start; padding-top: 4px;
+        align-items: center;
     }
 
-    /* Formatos en mobile: ajuste al ancho de pantalla */
+    /* Formatos MOBILE: basados en ancho de pantalla */
     .formato-post-vertical {
-        max-height: none; max-width: none;
-        width: 84vw; aspect-ratio: 4/5;
+        height: auto; width: 82vw; aspect-ratio: 4/5;
+        max-height: calc(100vh - 52px - 90px - 40px);
     }
     .formato-post-cuadrado {
-        max-height: none; max-width: none;
-        width: 84vw; aspect-ratio: 1/1;
+        height: auto; width: 82vw; aspect-ratio: 1/1;
+        max-height: calc(100vh - 52px - 90px - 40px);
     }
     .formato-historia {
-        max-height: none; max-width: none;
-        width: 55vw; aspect-ratio: 9/16;
+        height: auto; width: 52vw; aspect-ratio: 9/16;
+        max-height: calc(100vh - 52px - 90px - 40px);
     }
 
-    /* Botón descarga: ancho completo, fijo abajo */
+    /* Botón descarga ocupa todo el ancho */
     .btn-download {
-        max-width: 100%; width: calc(100% - 0px);
+        max-width: 100%; width: 100%;
+        padding: 18px 20px; font-size: 16px;
         flex-shrink: 0;
     }
 }

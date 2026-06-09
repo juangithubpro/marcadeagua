@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<!-- ===================== LOGIN ===================== -->
+<!-- LOGIN -->
 <div id="pantalla-token" class="login-screen">
     <div class="login-card">
         <div class="login-brand">
@@ -28,18 +28,17 @@
     </div>
 </div>
 
-<!-- ===================== APP ===================== -->
+<!-- APP -->
 <div class="app view-oculta" id="interfaz-principal">
 
-    <!-- NAV MOBILE — fuera de los paneles para que siempre sea visible -->
-    <nav class="mobile-nav">
+    <!-- TABS MOBILE (siempre visibles arriba en mobile) -->
+    <nav class="mobile-nav" id="mobile-nav">
         <button class="nav-tab activo" id="btn-tab-config" onclick="mobileTab('config')">⚙ Configurar</button>
         <button class="nav-tab" id="btn-tab-preview" onclick="mobileTab('preview')">👁 Ver placa</button>
     </nav>
 
     <!-- PANEL CONTROLES -->
     <aside class="panel-controles" id="panel-controles">
-
         <div class="panel-header">
             <div class="brand-mini">
                 <span class="brand-dot">W</span>
@@ -57,13 +56,13 @@
                 <h3 class="section-title">Imágenes</h3>
                 <div class="upload-grid">
                     <label class="upload-btn" id="label-foto">
-                        <div class="upload-icon">📸</div>
+                        <span class="upload-icon">📸</span>
                         <span class="upload-label">Foto del producto</span>
                         <span class="upload-sub" id="nombre-foto">Sin archivo</span>
                         <input type="file" id="input-foto" accept="image/*" style="display:none;">
                     </label>
                     <label class="upload-btn" id="label-logo">
-                        <div class="upload-icon">🏷️</div>
+                        <span class="upload-icon">🏷️</span>
                         <span class="upload-label">Logo / Marca</span>
                         <span class="upload-sub" id="nombre-logo">PNG recomendado</span>
                         <input type="file" id="input-logo" accept="image/*" style="display:none;">
@@ -108,7 +107,7 @@
                     </label>
                     <input type="range" id="range-opacidad" min="0.1" max="1" step="0.05" value="0.85" class="slider-pro">
                 </div>
-                <div class="slider-row">
+                <div class="slider-row" style="margin-top:14px">
                     <label class="slider-label">
                         <span>Tamaño del logo</span>
                         <span class="slider-val" id="val-tamano">30</span>
@@ -119,16 +118,17 @@
 
             <button class="btn-logout" onclick="cerrarSesion()">Cerrar sesión</button>
 
-        </div>
+        </div><!-- /controls-scroll -->
     </aside>
 
     <!-- PANEL PREVIEW -->
     <main class="panel-preview" id="panel-preview">
         <div class="preview-workspace">
+
             <div class="canvas-wrapper">
                 <div class="lienzo-producto formato-post-vertical" id="lienzo-objetivo">
                     <div class="foto-fondo" id="placa-foto">
-                        <div class="empty-state" id="empty-state">
+                        <div class="empty-state">
                             <span>📸</span>
                             <p>Cargá una foto<br>del producto</p>
                         </div>
@@ -141,10 +141,11 @@
                 <span class="btn-dl-icon">↓</span>
                 <span id="btn-dl-text">Guardar imagen</span>
             </button>
+
         </div>
     </main>
 
-</div>
+</div><!-- /app -->
 
 </body>
 </html>

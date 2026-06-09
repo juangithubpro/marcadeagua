@@ -10,56 +10,53 @@ let posicionActual = "abajo-derecha";
 // ── Init ────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Grillas de botones
-    bindToggleGroup('formato', (val) => {
+    // Grillas de toggles
+    bindToggle('formato', (val) => {
         formatoActual = val;
         const lienzo = document.getElementById('lienzo-objetivo');
-        if (lienzo) {
-            lienzo.className = `lienzo-producto formato-${val}`;
-        }
+        if (lienzo) lienzo.className = `lienzo-producto formato-${val}`;
         aplicarEstilosLogo();
     });
 
-    bindToggleGroup('posicion', (val) => {
+    bindToggle('posicion', (val) => {
         posicionActual = val;
-        const placaLogo = document.getElementById('placa-logo');
-        if (placaLogo) {
-            // Resetear transform antes de cambiar clase para no acumular
-            placaLogo.style.transform = '';
-            placaLogo.className = `logo-marca-agua ${val}`;
+        const logo = document.getElementById('placa-logo');
+        if (logo) {
+            // Limpiar transform inline antes de cambiar clase
+            if (val !== 'centro-gigante') logo.style.transform = '';
+            logo.className = `logo-marca-agua ${val}`;
             aplicarEstilosLogo();
         }
     });
 
     // Sliders
-    const rangeOpacidad = document.getElementById('range-opacidad');
-    const rangeTamano   = document.getElementById('range-tamano');
-    const valOpacidad   = document.getElementById('val-opacidad');
-    const valTamano     = document.getElementById('val-tamano');
+    const rangeOp  = document.getElementById('range-opacidad');
+    const rangeSz  = document.getElementById('range-tamano');
+    const valOp    = document.getElementById('val-opacidad');
+    const valSz    = document.getElementById('val-tamano');
 
-    rangeOpacidad?.addEventListener('input', () => {
-        if (valOpacidad) valOpacidad.textContent = Math.round(rangeOpacidad.value * 100) + '%';
+    rangeOp?.addEventListener('input', () => {
+        if (valOp) valOp.textContent = Math.round(rangeOp.value * 100) + '%';
+        aplicarEstilosLogo();
+    });
+    rangeSz?.addEventListener('input', () => {
+        if (valSz) valSz.textContent = rangeSz.value;
         aplicarEstilosLogo();
     });
 
-    rangeTamano?.addEventListener('input', () => {
-        if (valTamano) valTamano.textContent = rangeTamano.value;
-        aplicarEstilosLogo();
-    });
-
-    // Input foto
+    // Input foto producto
     document.getElementById('input-foto')?.addEventListener('change', (e) => {
         const file = e.target.files[0];
         if (!file) return;
         const reader = new FileReader();
         reader.onload = (ev) => {
-            const placaFoto = document.getElementById('placa-foto');
-            if (placaFoto) {
-                placaFoto.style.backgroundImage = `url('${ev.target.result}')`;
-                placaFoto.classList.add('has-image');
+            const fondo = document.getElementById('placa-foto');
+            if (fondo) {
+                fondo.style.backgroundImage = `url('${ev.target.result}')`;
+                fondo.classList.add('has-image');
             }
-            const nombreFoto = document.getElementById('nombre-foto');
-            if (nombreFoto) nombreFoto.textContent = truncarNombre(file.name);
+            const sub = document.getElementById('nombre-foto');
+            if (sub) sub.textContent = truncar(file.name);
             document.getElementById('label-foto')?.classList.add('loaded');
         };
         reader.readAsDataURL(file);
@@ -68,156 +65,142 @@ document.addEventListener('DOMContentLoaded', () => {
     // Input logo
     document.getElementById('input-logo')?.addEventListener('change', (e) => {
         const file = e.target.files[0];
-        const placaLogo = document.getElementById('placa-logo');
-        if (!file || !placaLogo) return;
+        if (!file) return;
         const reader = new FileReader();
         reader.onload = (ev) => {
-            placaLogo.src = ev.target.result;
-            placaLogo.style.display = 'block';
-            const nombreLogo = document.getElementById('nombre-logo');
-            if (nombreLogo) nombreLogo.textContent = truncarNombre(file.name);
+            const logo = document.getElementById('placa-logo');
+            if (logo) {
+                logo.src = ev.target.result;
+                logo.style.display = 'block';
+                aplicarEstilosLogo();
+            }
+            const sub = document.getElementById('nombre-logo');
+            if (sub) sub.textContent = truncar(file.name);
             document.getElementById('label-logo')?.classList.add('loaded');
-            aplicarEstilosLogo();
         };
         reader.readAsDataURL(file);
     });
 
-    // Swipe táctil para mobile
-    configurarSwipe();
+    // Swipe táctil
+    setupSwipe();
 
-    // Auto-login si hay token guardado
+    // Auto-login
     const tokenGuardado = localStorage.getItem('saas_token');
     if (tokenGuardado && BASE_DATOS_CLIENTES[tokenGuardado]) {
-        cargarInterfazSaaS(tokenGuardado);
+        cargarApp(tokenGuardado);
     }
 });
 
-// ── Toggle Groups ────────────────────────────────────────────────
-function bindToggleGroup(target, callback) {
-    const contenedor = document.querySelector(`[data-target="${target}"]`);
-    if (!contenedor) return;
-
-    contenedor.addEventListener('click', (e) => {
-        const boton = e.target.closest('[data-value]');
-        if (!boton) return;
-
-        // Quitar activo de todos los hijos directos con data-value
-        contenedor.querySelectorAll('[data-value]').forEach(b => b.classList.remove('activo'));
-        boton.classList.add('activo');
-        callback(boton.getAttribute('data-value'));
+// ── Toggle groups ────────────────────────────────────────────────
+function bindToggle(target, cb) {
+    const wrap = document.querySelector(`[data-target="${target}"]`);
+    if (!wrap) return;
+    wrap.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-value]');
+        if (!btn) return;
+        wrap.querySelectorAll('[data-value]').forEach(b => b.classList.remove('activo'));
+        btn.classList.add('activo');
+        cb(btn.getAttribute('data-value'));
     });
 }
 
 // ── Mobile tabs ──────────────────────────────────────────────────
 function mobileTab(tab) {
-    const panelControles = document.getElementById('panel-controles');
-    const panelPreview   = document.getElementById('panel-preview');
-    const btnConfig      = document.getElementById('btn-tab-config');
-    const btnPreview     = document.getElementById('btn-tab-preview');
+    const controles = document.getElementById('panel-controles');
+    const preview   = document.getElementById('panel-preview');
+    const btnC      = document.getElementById('btn-tab-config');
+    const btnP      = document.getElementById('btn-tab-preview');
 
-    // Los botones de mobile-nav están DENTRO de panel-preview en el HTML,
-    // entonces ambos paneles existen siempre
     if (tab === 'config') {
-        panelControles?.classList.remove('mobile-hidden');
-        panelPreview?.classList.remove('mobile-visible');
-        btnConfig?.classList.add('activo');
-        btnPreview?.classList.remove('activo');
+        controles?.classList.remove('oculto');
+        preview?.classList.remove('visible');
+        btnC?.classList.add('activo');
+        btnP?.classList.remove('activo');
     } else {
-        panelControles?.classList.add('mobile-hidden');
-        panelPreview?.classList.add('mobile-visible');
-        btnPreview?.classList.add('activo');
-        btnConfig?.classList.remove('activo');
+        controles?.classList.add('oculto');
+        preview?.classList.add('visible');
+        btnP?.classList.add('activo');
+        btnC?.classList.remove('activo');
     }
 }
 
-function configurarSwipe() {
-    const panelPreview = document.getElementById('panel-preview');
-    if (!panelPreview) return;
-    let inicioX = 0;
+function setupSwipe() {
+    let startX = 0;
+    const umbral = 60;
 
-    panelPreview.addEventListener('touchstart', (e) => {
-        inicioX = e.touches[0].clientX;
-    }, { passive: true });
-
-    panelPreview.addEventListener('touchend', (e) => {
-        const dif = inicioX - e.changedTouches[0].clientX;
-        if (Math.abs(dif) > 70) {
-            mobileTab(dif > 0 ? 'preview' : 'config');
-        }
-    }, { passive: true });
-
-    const panelControles = document.getElementById('panel-controles');
-    if (panelControles) {
-        panelControles.addEventListener('touchstart', (e) => {
-            inicioX = e.touches[0].clientX;
+    const addSwipe = (el, onLeft, onRight) => {
+        if (!el) return;
+        el.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
+        el.addEventListener('touchend',   e => {
+            const diff = startX - e.changedTouches[0].clientX;
+            if (Math.abs(diff) < umbral) return;
+            if (diff > 0) onLeft();
+            else onRight();
         }, { passive: true });
-        panelControles.addEventListener('touchend', (e) => {
-            const dif = inicioX - e.changedTouches[0].clientX;
-            if (dif > 70) mobileTab('preview');
-        }, { passive: true });
-    }
+    };
+
+    addSwipe(
+        document.getElementById('panel-controles'),
+        () => mobileTab('preview'),
+        () => {}
+    );
+    addSwipe(
+        document.getElementById('panel-preview'),
+        () => {},
+        () => mobileTab('config')
+    );
 }
 
 // ── Logo styles ──────────────────────────────────────────────────
 function aplicarEstilosLogo() {
-    const placaLogo    = document.getElementById('placa-logo');
-    const rangeOpacidad = document.getElementById('range-opacidad');
-    const rangeTamano  = document.getElementById('range-tamano');
+    const logo   = document.getElementById('placa-logo');
+    const rangeOp = document.getElementById('range-opacidad');
+    const rangeSz = document.getElementById('range-tamano');
+    if (!logo || !rangeOp || !rangeSz) return;
 
-    if (!placaLogo || !rangeOpacidad || !rangeTamano) return;
+    logo.style.opacity = rangeOp.value;
 
-    const opacidad = parseFloat(rangeOpacidad.value);
-    const tamano   = parseInt(rangeTamano.value);
-
-    placaLogo.style.opacity = opacidad;
-
+    const sz = parseInt(rangeSz.value);
     if (posicionActual === 'centro-gigante') {
-        const px = tamano * 3.5;
-        placaLogo.style.width  = `${px}px`;
-        placaLogo.style.height = 'auto';
-        // Para centro, la clase CSS usa transform: translate(-50%,-50%)
-        // No sobreescribir con style.transform aquí
+        logo.style.width  = `${sz * 3.5}px`;
+        logo.style.height = 'auto';
+        // No tocar transform, lo maneja la clase CSS
     } else {
-        const px = tamano * 2.5;
-        placaLogo.style.width  = `${px}px`;
-        placaLogo.style.height = 'auto';
-        placaLogo.style.transform = '';
+        logo.style.width     = `${sz * 2.5}px`;
+        logo.style.height    = 'auto';
+        logo.style.transform = '';
     }
 }
 
 // ── Auth ────────────────────────────────────────────────────────
 function validarToken() {
-    const tokenInput = document.getElementById('input-token')?.value.trim().toUpperCase();
-    const errorMsg   = document.getElementById('error-token');
+    const input    = document.getElementById('input-token');
+    const errorEl  = document.getElementById('error-token');
+    const token    = input?.value.trim().toUpperCase();
 
-    if (!tokenInput) {
-        if (errorMsg) errorMsg.textContent = 'Ingresá un token válido.';
+    if (!token) {
+        if (errorEl) errorEl.textContent = 'Ingresá un token.';
         return;
     }
-
-    if (BASE_DATOS_CLIENTES[tokenInput]) {
-        if (errorMsg) errorMsg.textContent = '';
-        localStorage.setItem('saas_token', tokenInput);
-        if (localStorage.getItem(`creditos_${tokenInput}`) === null) {
-            localStorage.setItem(`creditos_${tokenInput}`, BASE_DATOS_CLIENTES[tokenInput].creditosIniciales);
+    if (BASE_DATOS_CLIENTES[token]) {
+        if (errorEl) errorEl.textContent = '';
+        localStorage.setItem('saas_token', token);
+        if (!localStorage.getItem(`creditos_${token}`)) {
+            localStorage.setItem(`creditos_${token}`, BASE_DATOS_CLIENTES[token].creditosIniciales);
         }
-        cargarInterfazSaaS(tokenInput);
+        cargarApp(token);
     } else {
-        if (errorMsg) errorMsg.textContent = 'Token inválido. Verificá e intentá de nuevo.';
+        if (errorEl) errorEl.textContent = 'Token inválido.';
     }
 }
 
-// Enter key en input
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') {
-        const loginScreen = document.getElementById('pantalla-token');
-        if (loginScreen && !loginScreen.classList.contains('view-oculta')) {
-            validarToken();
-        }
-    }
+document.addEventListener('keydown', e => {
+    if (e.key !== 'Enter') return;
+    const login = document.getElementById('pantalla-token');
+    if (login && !login.classList.contains('view-oculta')) validarToken();
 });
 
-function cargarInterfazSaaS(token) {
+function cargarApp(token) {
     document.getElementById('pantalla-token')?.classList.add('view-oculta');
     document.getElementById('interfaz-principal')?.classList.remove('view-oculta');
     actualizarContador(token);
@@ -225,32 +208,36 @@ function cargarInterfazSaaS(token) {
 }
 
 function actualizarContador(token) {
-    const creditos        = parseInt(localStorage.getItem(`creditos_${token}`)) || 0;
-    const contadorEl      = document.getElementById('contador-creditos');
-    const btnDescargar    = document.getElementById('btn-descargar');
-    const btnDlText       = document.getElementById('btn-dl-text');
+    const cred   = parseInt(localStorage.getItem(`creditos_${token}`)) || 0;
+    const numEl  = document.getElementById('contador-creditos');
+    const btnDl  = document.getElementById('btn-descargar');
+    const txtDl  = document.getElementById('btn-dl-text');
 
-    if (contadorEl) contadorEl.textContent = creditos;
-    if (btnDescargar) btnDescargar.disabled = (creditos <= 0);
-    if (btnDlText && creditos <= 0) btnDlText.textContent = 'Sin créditos disponibles';
+    if (numEl) numEl.textContent = cred;
+    if (btnDl) btnDl.disabled = (cred <= 0);
+    if (txtDl && cred <= 0) txtDl.textContent = 'Sin créditos';
 }
 
-// ── Download ────────────────────────────────────────────────────
+// ── Descarga ────────────────────────────────────────────────────
 async function procesarDescarga() {
-    const token      = localStorage.getItem('saas_token');
-    const btnDl      = document.getElementById('btn-descargar');
-    const btnDlText  = document.getElementById('btn-dl-text');
-    const lienzo     = document.getElementById('lienzo-objetivo');
-    let creditos     = parseInt(localStorage.getItem(`creditos_${token}`)) || 0;
+    const token  = localStorage.getItem('saas_token');
+    const lienzo = document.getElementById('lienzo-objetivo');
+    const btnDl  = document.getElementById('btn-descargar');
+    const txtDl  = document.getElementById('btn-dl-text');
+    let cred     = parseInt(localStorage.getItem(`creditos_${token}`)) || 0;
 
-    if (creditos <= 0 || !lienzo) return;
+    if (cred <= 0 || !lienzo) return;
 
-    if (btnDlText) btnDlText.textContent = 'Procesando…';
-    if (btnDl)    btnDl.disabled = true;
+    if (txtDl) txtDl.textContent = 'Procesando…';
+    if (btnDl) btnDl.disabled = true;
 
     try {
         const canvas = await html2canvas(lienzo, {
-            useCORS: true, allowTaint: true, scale: 3, backgroundColor: null
+            useCORS: true,
+            allowTaint: true,
+            scale: 3,
+            backgroundColor: null,
+            logging: false
         });
 
         const link = document.createElement('a');
@@ -258,18 +245,19 @@ async function procesarDescarga() {
         link.href = canvas.toDataURL('image/png', 1.0);
         link.click();
 
-        creditos--;
-        localStorage.setItem(`creditos_${token}`, creditos);
+        cred--;
+        localStorage.setItem(`creditos_${token}`, cred);
         actualizarContador(token);
-        if (btnDlText) btnDlText.textContent = '¡Guardado! Descargar otra';
+        if (txtDl) txtDl.textContent = '¡Guardado! ↓';
         setTimeout(() => {
-            if (btnDlText) btnDlText.textContent = 'Guardar imagen';
+            if (txtDl) txtDl.textContent = 'Guardar imagen';
+            if (btnDl && cred > 0) btnDl.disabled = false;
         }, 2500);
 
     } catch (err) {
         console.error(err);
-        alert('Error al procesar la imagen. Intentá de nuevo.');
-        if (btnDlText) btnDlText.textContent = 'Guardar imagen';
+        alert('Error al procesar. Intentá de nuevo.');
+        if (txtDl) txtDl.textContent = 'Guardar imagen';
         actualizarContador(token);
     }
 }
@@ -279,7 +267,6 @@ function cerrarSesion() {
     location.reload();
 }
 
-// ── Utils ────────────────────────────────────────────────────────
-function truncarNombre(nombre) {
-    return nombre.length > 18 ? nombre.substring(0, 15) + '…' : nombre;
+function truncar(nombre) {
+    return nombre.length > 18 ? nombre.slice(0, 15) + '…' : nombre;
 }
