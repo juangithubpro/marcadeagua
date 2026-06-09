@@ -161,9 +161,11 @@ function aplicarEstilosLogo() {
     if (!placaLogo || !rangeOpacidad || !rangeTamano) return;
 
     placaLogo.style.opacity = rangeOpacidad.value;
+    
+    // Al dejar el height en auto, la imagen conserva su proporción original y no se estira fea
     if (posicionActual === 'centro-gigante') {
-        placaLogo.style.width = `${rangeTamano.value * 3}px`;
-        placaLogo.style.height = `${rangeTamano.value * 3}px`;
+        placaLogo.style.width = `${rangeTamano.value * 3.5}px`;
+        placaLogo.style.height = 'auto';
     } else {
         placaLogo.style.width = `${rangeTamano.value * 2.5}px`;
         placaLogo.style.height = 'auto';
