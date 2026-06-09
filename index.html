@@ -3,108 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Watermark Pro SaaS</title>
+    <title>Watermark Pro · CapsulaWebs</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="script.js" defer></script>
 </head>
 <body>
 
-    <div id="pantalla-token" class="modal-token">
-        <div class="modal-contenido-gigante">
-            <div class="brand-header">
+    <!-- ===================== LOGIN ===================== -->
+    <div id="pantalla-token" class="login-screen">
+        <div class="login-card">
+            <div class="login-brand">
+                <div class="login-logo-icon">W</div>
                 <h1>Watermark Pro</h1>
-                <p>CapsulaWebs • Sistema de Gestión</p>
+                <p>CapsulaWebs · Sistema de Marcas</p>
             </div>
-            <div class="login-form-group">
-                <input type="text" id="input-token" placeholder="INTRODUCE TU TOKEN" autocomplete="off">
-                <button onclick="validarToken()" class="btn-login-gigante">INGRESAR AL SISTEMA</button>
+            <div class="login-fields">
+                <input type="text" id="input-token" placeholder="INGRESÁ TU TOKEN" autocomplete="off" spellcheck="false">
+                <button onclick="validarToken()" class="btn-primary btn-full">Entrar al sistema</button>
             </div>
-            <div id="error-token" class="error-msg"></div>
+            <p id="error-token" class="error-msg"></p>
         </div>
     </div>
 
-    <div class="app-contenedor view-oculta" id="interfaz-principal">
-        
-        <div class="nav-superior">
-            <button class="tab-btn activo" id="btn-tab-controles" onclick="cambiarPagina(0)">⚙️ Configurar</button>
-            <button class="tab-btn" id="btn-tab-lienzo" onclick="cambiarPagina(1)">👁️ Ver Placa</button>
-        </div>
+    <!-- ===================== APP ===================== -->
+    <div class="app view-oculta" id="interfaz-principal">
 
-        <div class="deslizador-paginas" id="deslizador-paginas">
-            
-            <div class="pagina-app" id="pag-controles">
-                <div class="wrapper-controles-full">
-                    
-                    <div class="info-creditos-card-full">
-                        <span>CRÉDITOS DISPONIBLES</span>
-                        <h3 id="contador-creditos">0</h3>
-                    </div>
+        <!-- SIDEBAR / PANEL CONTROLES -->
+        <aside class="panel-controles" id="panel-controles">
 
-                    <div class="control-card-full">
-                        <label class="label-remoto-pro">Formato de Salida</label>
-                        <div class="grilla-botones" data-target="formato">
-                            <button class="btn-remoto-pro activo" data-value="post-vertical">Vertical (4:5)</button>
-                            <button class="btn-remoto-pro" data-value="post-cuadrado">Cuadrado (1:1)</button>
-                            <button class="btn-remoto-pro" data-value="historia">Historia (9:16)</button>
-                        </div>
-                    </div>
-
-                    <div class="control-card-full">
-                        <label class="label-remoto-pro">Archivos locales</label>
-                        <div class="grilla-botones-archivos">
-                            <label class="btn-remoto-pro file-label-pro">
-                                📸 Cargar Producto
-                                <input type="file" id="input-foto" accept="image/*" style="display:none;">
-                            </label>
-                            <label class="btn-remoto-pro file-label-pro">
-                                🏷️ Subir Marca (PNG)
-                                <input type="file" id="input-logo" accept="image/*" style="display:none;">
-                            </label>
-                        </div>
-                    </div>
-
-                    <div class="control-card-full">
-                        <label class="label-remoto-pro">Posición de Marca</label>
-                        <div class="grilla-botones cuadricula-pro" data-target="posicion">
-                            <button class="btn-remoto-pro" data-value="arriba-izquierda">↖️ Sup. Izq</button>
-                            <button class="btn-remoto-pro" data-value="arriba-derecha">↗️ Sup. Der</button>
-                            <button class="btn-remoto-pro" data-value="abajo-izquierda">↙️ Inf. Izq</button>
-                            <button class="btn-remoto-pro activo" data-value="abajo-derecha">↘️ Inf. Der</button>
-                            <button class="btn-remoto-pro full-width-pro" data-value="centro-gigante">☀️ Marca de Agua Central</button>
-                        </div>
-                    </div>
-
-                    <div class="control-card-full">
-                        <label class="label-remoto-pro">Opacidad del Logo</label>
-                        <input type="range" id="range-opacidad" min="0.1" max="1" step="0.05" value="0.85" class="slider-remoto-pro">
-                    </div>
-
-                    <div class="control-card-full">
-                        <label class="label-remoto-pro">Tamaño del Logo</label>
-                        <input type="range" id="range-tamano" min="10" max="80" step="5" value="30" class="slider-remoto-pro">
-                    </div>
-
-                    <button class="btn-logout-remoto-pro" onclick="cerrarSesion()">Cerrar Sesión del Comercio</button>
+            <div class="panel-header">
+                <div class="brand-mini">
+                    <span class="brand-dot">W</span>
+                    <span>Watermark Pro</span>
+                </div>
+                <div class="credits-badge">
+                    <span class="credits-label">Créditos</span>
+                    <span class="credits-num" id="contador-creditos">0</span>
                 </div>
             </div>
 
-            <div class="pagina-app" id="pag-lienzo">
-                <div class="workspace-placa-full">
-                    
+            <div class="controls-scroll">
+
+                <!-- UPLOAD -->
+                <section class="control-section">
+                    <h3 class="section-title">Imágenes</h3>
+                    <div class="upload-grid">
+                        <label class="upload-btn" id="label-foto">
+                            <div class="upload-icon">📸</div>
+                            <span class="upload-label">Foto del producto</span>
+                            <span class="upload-sub" id="nombre-foto">Sin archivo</span>
+                            <input type="file" id="input-foto" accept="image/*" style="display:none;">
+                        </label>
+                        <label class="upload-btn" id="label-logo">
+                            <div class="upload-icon">🏷️</div>
+                            <span class="upload-label">Logo / Marca</span>
+                            <span class="upload-sub" id="nombre-logo">PNG recomendado</span>
+                            <input type="file" id="input-logo" accept="image/*" style="display:none;">
+                        </label>
+                    </div>
+                </section>
+
+                <!-- FORMATO -->
+                <section class="control-section">
+                    <h3 class="section-title">Formato de salida</h3>
+                    <div class="toggle-group" data-target="formato">
+                        <button class="toggle-btn activo" data-value="post-vertical">
+                            <span class="fmt-icon fmt-vertical"></span>
+                            <span>Vertical<br><small>4:5</small></span>
+                        </button>
+                        <button class="toggle-btn" data-value="post-cuadrado">
+                            <span class="fmt-icon fmt-cuadrado"></span>
+                            <span>Cuadrado<br><small>1:1</small></span>
+                        </button>
+                        <button class="toggle-btn" data-value="historia">
+                            <span class="fmt-icon fmt-historia"></span>
+                            <span>Historia<br><small>9:16</small></span>
+                        </button>
+                    </div>
+                </section>
+
+                <!-- POSICION -->
+                <section class="control-section">
+                    <h3 class="section-title">Posición del logo</h3>
+                    <div class="position-grid" data-target="posicion">
+                        <button class="pos-btn" data-value="arriba-izquierda" title="Superior Izquierda">↖</button>
+                        <button class="pos-btn" data-value="arriba-derecha" title="Superior Derecha">↗</button>
+                        <button class="pos-btn" data-value="abajo-izquierda" title="Inferior Izquierda">↙</button>
+                        <button class="pos-btn activo" data-value="abajo-derecha" title="Inferior Derecha">↘</button>
+                        <button class="pos-btn pos-center" data-value="centro-gigante" title="Centro (Marca de Agua)">
+                            ✦ Marca de agua central
+                        </button>
+                    </div>
+                </section>
+
+                <!-- SLIDERS -->
+                <section class="control-section">
+                    <div class="slider-row">
+                        <label class="slider-label">
+                            <span>Opacidad</span>
+                            <span class="slider-val" id="val-opacidad">85%</span>
+                        </label>
+                        <input type="range" id="range-opacidad" min="0.1" max="1" step="0.05" value="0.85" class="slider-pro">
+                    </div>
+                    <div class="slider-row" style="margin-top:16px">
+                        <label class="slider-label">
+                            <span>Tamaño del logo</span>
+                            <span class="slider-val" id="val-tamano">30</span>
+                        </label>
+                        <input type="range" id="range-tamano" min="10" max="80" step="5" value="30" class="slider-pro">
+                    </div>
+                </section>
+
+                <button class="btn-logout" onclick="cerrarSesion()">Cerrar sesión</button>
+
+            </div><!-- /controls-scroll -->
+        </aside>
+
+        <!-- PANEL PREVIEW -->
+        <main class="panel-preview" id="panel-preview">
+
+            <!-- Mobile tab nav -->
+            <nav class="mobile-nav">
+                <button class="nav-tab activo" id="btn-tab-config" onclick="mobileTab('config')">⚙ Configurar</button>
+                <button class="nav-tab" id="btn-tab-preview" onclick="mobileTab('preview')">👁 Ver placa</button>
+            </nav>
+
+            <div class="preview-workspace">
+                <div class="canvas-wrapper">
                     <div class="lienzo-producto formato-post-vertical" id="lienzo-objetivo">
-                        <div class="foto-fondo" id="placa-foto"></div>
-                        <img class="logo-marca-agua abajo-derecha" id="placa-logo" src="" style="display: none;">
+                        <div class="foto-fondo" id="placa-foto">
+                            <div class="empty-state" id="empty-state">
+                                <span>📸</span>
+                                <p>Cargá una foto<br>del producto</p>
+                            </div>
+                        </div>
+                        <img class="logo-marca-agua abajo-derecha" id="placa-logo" src="" style="display:none;">
                     </div>
-
-                    <button type="button" class="action-float-btn-pro" id="btn-descargar" onclick="procesarDescarga()">
-                        📥 GUARDAR EN GALERÍA
-                    </button>
                 </div>
+
+                <button type="button" class="btn-download" id="btn-descargar" onclick="procesarDescarga()">
+                    <span class="btn-dl-icon">↓</span>
+                    <span id="btn-dl-text">Guardar imagen</span>
+                </button>
             </div>
 
-        </div>
-    </div>
+        </main>
+
+    </div><!-- /app -->
 
 </body>
 </html>
