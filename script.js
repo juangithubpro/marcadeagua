@@ -1,3 +1,4 @@
+// 🔐 Base de datos local simulada
 const BASE_DATOS_CLIENTES = {
     "NADA2026": { nombre: "Nada Digital", creditosIniciales: 20 },
     "SHOWROOMSP": { nombre: "Showroom Sáenz Peña", creditosIniciales: 50 }
@@ -6,11 +7,14 @@ const BASE_DATOS_CLIENTES = {
 let formatoActual = "post-vertical";
 let posicionActual = "abajo-derecha";
 
+// 🔄 Sincronizadores en Vivo (Se ejecutan tras cargar el DOM)
 document.addEventListener('DOMContentLoaded', () => {
-    // 🎛️ CAPTURA DE BOTONERAS ESTILO REMOTO
+    
+    // 🔥 CORREGIDO: Ahora busca y opera sobre '.btn-remoto-pro'
     configurarGrillaBotones('formato', (val) => {
         formatoActual = val;
-        document.getElementById('lienzo-objetivo').className = `lienzo-producto formato-${val}`;
+        const lienzo = document.getElementById('lienzo-objetivo');
+        if (lienzo) lienzo.className = `lienzo-producto formato-${val}`;
     });
 
     configurarGrillaBotones('posicion', (val) => {
@@ -27,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const rangeTamano = document.getElementById('range-tamano');
     const inputFoto = document.getElementById('input-foto');
     const inputLogo = document.getElementById('input-logo');
+    const placaFoto = document.getElementById('placa-foto');
 
     if (rangeOpacidad) rangeOpacidad.addEventListener('input', aplicarEstilosLogo);
     if (rangeTamano) rangeTamano.addEventListener('input', aplicarEstilosLogo);
@@ -34,7 +39,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (inputFoto) {
         inputFoto.addEventListener('change', (e) => {
             const file = e.target.files[0];
-            const placaFoto = document.getElementById('placa-foto');
             if (file && placaFoto) {
                 const reader = new FileReader();
                 reader.onload = (event) => placaFoto.style.backgroundImage = `url('${event.target.result}')`;
@@ -68,51 +72,51 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
-// Lógica para transformar una grilla de divs en botones de control único
+// 🔥 CORREGIDO: Vinculación precisa para clases '-pro'
 function configurarGrillaBotones(targetData, callback) {
     const contenedor = document.querySelector(`[data-target="${targetData}"]`);
     if (!contenedor) return;
 
     contenedor.addEventListener('click', (e) => {
-        const boton = e.target.closest('.btn-remoto');
+        const boton = e.target.closest('.btn-remoto-pro'); // Corregido el selector aquí
         if (!boton) return;
 
-        contenedor.querySelectorAll('.btn-remoto').forEach(b => b.classList.remove('activo'));
+        contenedor.querySelectorAll('.btn-remoto-pro').forEach(b => b.classList.remove('activo'));
         boton.classList.add('activo');
         callback(boton.getAttribute('data-value'));
     });
 }
 
-// Cambiar de pestaña fluidamente (Deslizador horizontal)
+// Cambiar de pestaña fluidamente
 function cambiarPagina(numPagina) {
     const deslizador = document.getElementById('deslizador-paginas');
     const btnTabControles = document.getElementById('btn-tab-controles');
     const btnTabLienzo = document.getElementById('btn-tab-lienzo');
 
     if (numPagina === 0) {
-        deslizador.style.transform = "translateX(0vw)";
-        btnTabControles.classList.add('activo');
-        btnTabLienzo.classList.remove('activo');
+        if (deslizador) deslizador.style.transform = "translateX(0vw)";
+        if (btnTabControles) btnTabControles.classList.add('activo');
+        if (btnTabLienzo) btnTabLienzo.classList.remove('activo');
     } else {
-        deslizador.style.transform = "translateX(-100vw)";
-        btnTabLienzo.classList.add('activo');
-        btnTabControles.classList.remove('activo');
+        if (deslizador) deslizador.style.transform = "translateX(-100vw)";
+        if (btnTabLienzo) btnTabLienzo.classList.add('activo');
+        if (btnTabControles) btnTabControles.classList.remove('activo');
     }
 }
 
-// Detecta los movimientos laterales del dedo
 function configurarSwipeTactil() {
     let inicioX = 0;
     const deslizador = document.getElementById('deslizador-paginas');
+    if (!deslizador) return;
 
     deslizador.addEventListener('touchstart', (e) => inicioX = e.touches[0].clientX);
     deslizador.addEventListener('touchend', (e) => {
         let finX = e.changedTouches[0].clientX;
         let diferencia = inicioX - finX;
 
-        if (Math.abs(diferencia) > 80) { // Umbral de sensibilidad
-            if (diferencia > 0) cambiarPagina(1); // Deslizó a la izquierda -> Ver Placa
-            else cambiarPagina(0);                 // Deslizó a la derecha -> Configurar
+        if (Math.abs(diferencia) > 80) { 
+            if (diferencia > 0) cambiarPagina(1); 
+            else cambiarPagina(0);                 
         }
     });
 }
@@ -186,7 +190,7 @@ async function procesarDescarga() {
         link.click();
 
         creditos--;
-        localStorage.setItem(`creditos_${token}`, credited = creditos);
+        localStorage.setItem(`creditos_${token}`, creditos);
         actualizarContadorPantalla(token);
 
     } catch (err) {

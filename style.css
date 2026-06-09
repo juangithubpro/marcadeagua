@@ -104,10 +104,12 @@ html, body {
     padding: 20px 16px; 
     display: flex; 
     flex-direction: column; 
-    justify-content: space-between; /* Obliga a los bloques a separarse usando todo el alto de las 6 pulgadas */
+    justify-content: flex-start; /* 🔥 Cambiado para que se agrupen arriba de forma estética */
+    gap: 20px;                   /* 🔥 Distancia moderada y uniforme en lo alto entre bloques */
     height: 100%; 
     width: 100%;
     box-sizing: border-box;
+    overflow-y: auto;            /* Permite scroll suave si la pantalla es más pequeña que los controles */
 }
 
 .info-creditos-card-full {
