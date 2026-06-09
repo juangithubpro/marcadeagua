@@ -1,30 +1,35 @@
 /* ==========================================================================
-   ⚙️ ESTRUCTURA APP PREMIUM EXPANDIDA (MÍNIMO 6 PULGADAS ÚTILES)
+   ⚙️ APARIENCIA APP SAAS - INMERSICIÓN EN 6.5 PULGADAS (GRIS MINIMALISTA)
    ========================================================================== */
 :root {
     --bg-app: #121214;         /* Gris oscuro unificado moderno */
     --bg-tarjeta: #1a1a1e;     /* Gris para módulos y paneles */
-    --bg-input: #26262b;       /* Gris para botones de control */
+    --bg-input: #26262b;       /* Gris para botones inactivos */
     --text-principal: #ffffff;
     --text-secundario: #a1a1aa;
     --border-card: #2a2a30;
     --success: #10b981;
 }
 
-body, html {
+/* 🔥 FUERZA BRUTA PARA ANULAR SCROLLS Y PADDING INNECESARIOS */
+html, body {
     margin: 0; padding: 0;
-    width: 100%; height: 100%;
+    width: 100vw; height: 100vh;
+    min-height: 100vh;
     background-color: var(--bg-app);
     color: var(--text-principal);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    overflow: hidden;
-    position: fixed; /* Evita rebotes en navegadores móviles */
+    overflow: hidden !important;
+    position: fixed; 
+    box-sizing: border-box;
 }
+
+*, *:before, *:after { box-sizing: inherit; }
 
 .view-oculta { display: none !important; }
 
 /* ==========================================================================
-   🔑 LOGIN GIGANTE INMERSIVO
+   🔑 LOGIN GIGANTE A PANTALLA COMPLETA REAL
    ========================================================================== */
 .modal-token {
     position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
@@ -35,8 +40,8 @@ body, html {
     border: 1px solid var(--border-card); text-align: center; width: 90%; max-width: 400px;
     box-shadow: 0 25px 50px rgba(0,0,0,0.6);
 }
-.brand-header h1 { margin: 0; font-size: 36px; font-weight: 900; letter-spacing: -1px; }
-.brand-header p { color: var(--text-secundario); font-size: 16px; margin: 8px 0 40px 0; font-weight: 500; }
+.brand-header h1 { margin: 0; font-size: 38px; font-weight: 900; letter-spacing: -1px; }
+.brand-header p { color: var(--text-secundario); font-size: 16px; margin: 8px 0 45px 0; font-weight: 500; }
 
 .modal-contenido-gigante input {
     width: 100%; padding: 22px; background: var(--bg-input); border: 2px solid var(--border-card);
@@ -48,59 +53,71 @@ body, html {
 .btn-login-gigante {
     background: #ffffff; color: #000000; border: none; font-weight: 900;
     padding: 22px; border-radius: 18px; font-size: 18px; width: 100%; cursor: pointer;
-    text-transform: uppercase; box-shadow: 0 10px 25px rgba(255,255,255,0.05);
+    text-transform: uppercase; letter-spacing: 0.5px;
 }
 
 /* ==========================================================================
-   📱 CONTENEDOR PRINCIPAL Y PESTAÑAS GIGANTES
+   📱 CONTENEDOR PRINCIPAL Y PESTAÑAS GIGANTES DE NAVEGACIÓN
    ========================================================================== */
-.app-contenedor { display: flex; flex-direction: column; width: 100vw; height: 100vh; }
+.app-contenedor { 
+    display: flex; flex-direction: column; 
+    width: 100vw; height: 100vh; 
+    min-height: 100vh;
+}
 
 .nav-superior {
-    height: 75px; /* Más alto para celulares grandes */
+    height: 75px; /* Más alto para que se lea perfecto en pantallas grandes */
     background: var(--bg-tarjeta); display: flex;
     border-bottom: 2px solid var(--border-card); z-index: 10;
 }
 .tab-btn {
     flex: 1; border: none; background: transparent; color: var(--text-secundario);
     font-weight: 900; 
-    font-size: 20px; /* Letra grande y legible solicitada */
+    font-size: 20px; /* Tamaño solicitado, súper legible */
     cursor: pointer;
-    transition: all 0.2s ease;
     display: flex; align-items: center; justify-content: center;
+    transition: all 0.2s ease;
 }
 .tab-btn.activo { 
     color: var(--text-principal); 
-    border-bottom: 5px solid #ffffff; /* Indicador inferior grueso */
+    border-bottom: 5px solid #ffffff; /* Indicador inferior grueso y blanco */
     background: rgba(255, 255, 255, 0.02);
 }
 
+/* 🔥 CORRECCIÓN CRÍTICA: Fuerza el deslizador a usar el alto útil restante del visor móvil */
 .deslizador-paginas {
     flex: 1; display: flex; width: 200vw;
     transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     height: calc(100vh - 75px);
 }
-.pagina-app { width: 100vw; height: 100%; overflow: hidden; box-sizing: border-box; }
+.pagina-app { 
+    width: 100vw; 
+    height: 100%; 
+    overflow: hidden; /* Saca scrolls molestos para fijar los controles */
+    box-sizing: border-box; 
+}
 
 /* ==========================================================================
-   🎛️ PÁGINA 1: DISTRIBUCIÓN TOTAL EN PANTALLA COMPLETA
+   🎛️ PÁGINA 1: DISTRIBUCIÓN EXTREMA DE CONTROLES (SPAN DE PANTALLA)
    ========================================================================== */
 .wrapper-controles-full {
     padding: 20px 16px; 
     display: flex; 
     flex-direction: column; 
-    justify-content: space-between; /* Distribuye los bloques en todo el alto disponible */
-    height: 100%; /* Ocupa el alto completo de la pestaña */
+    justify-content: space-between; /* Obliga a los bloques a separarse usando todo el alto de las 6 pulgadas */
+    height: 100%; 
+    width: 100%;
     box-sizing: border-box;
 }
 
 .info-creditos-card-full {
-    background: var(--bg-tarjeta); border-radius: 20px; padding: 15px; text-align: center;
+    background: var(--bg-tarjeta); border-radius: 20px; padding: 14px; text-align: center;
     border: 1px solid var(--border-card);
 }
-.info-creditos-card-full span { font-size: 13px; font-weight: 800; color: var(--text-secundario); letter-spacing: 1px; }
-.info-creditos-card-full h3 { margin: 5px 0 0 0; font-size: 32px; font-weight: 900; color: #10b981; }
+.info-creditos-card-full span { font-size: 12px; font-weight: 800; color: var(--text-secundario); letter-spacing: 1px; }
+.info-creditos-card-full h3 { margin: 4px 0 0 0; font-size: 32px; font-weight: 900; color: #10b981; }
 
+/* Bloques estilo Xiaomi Remotos */
 .control-card-full {
     background: var(--bg-tarjeta); 
     padding: 16px 20px; 
@@ -111,14 +128,14 @@ body, html {
     gap: 12px;
 }
 .label-remoto-pro { 
-    font-size: 16px; /* Letras de controles más grandes */
+    font-size: 15px; /* Textos de control robustos */
     font-weight: 900; 
     color: var(--text-secundario); 
     text-transform: uppercase; 
     letter-spacing: 0.5px; 
 }
 
-/* Grillas de botones control remoto robustas */
+/* Grillas Expandidas */
 .grilla-botones { display: flex; gap: 10px; width: 100%; }
 .grilla-botones-archivos { display: flex; gap: 12px; width: 100%; }
 .cuadricula-pro { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
@@ -126,7 +143,7 @@ body, html {
 
 .btn-remoto-pro {
     flex: 1; 
-    padding: 16px 12px; /* Botón gordo para dedos */
+    padding: 18px 12px; /* Altura ideal para manipulación táctil rápida */
     background: var(--bg-input); 
     border: 1px solid transparent;
     color: var(--text-principal); 
@@ -138,10 +155,10 @@ body, html {
 .btn-remoto-pro.activo { background: #ffffff !important; color: #000000 !important; font-weight: 900; }
 .file-label-pro { display: flex; align-items: center; justify-content: center; }
 
-/* Sliders */
+/* Sliders Táctiles */
 .slider-remoto-pro {
     -webkit-appearance: none; width: 100%; height: 14px; border-radius: 7px;
-    background: var(--bg-input); outline: none; margin: 5px 0;
+    background: var(--bg-input); outline: none; margin: 4px 0;
 }
 .slider-remoto-pro::-webkit-slider-thumb {
     -webkit-appearance: none; appearance: none; width: 26px; height: 26px;
@@ -151,7 +168,7 @@ body, html {
 .btn-logout-remoto-pro { background: transparent; border: none; color: #f43f5e; font-weight: 700; font-size: 14px; cursor: pointer; margin-top: 5px; align-self: center; }
 
 /* ==========================================================================
-   👁️ PÁGINA 2: LIENZO DISTRIBUIDO A PANTALLA COMPLETA GIGANTE
+   👁️ PÁGINA 2: DISTRIBUCIÓN DEL LIENZO A PANTALLA COMPLETA MAXIMIZADA
    ========================================================================== */
 .workspace-placa-full {
     width: 100%; 
@@ -159,17 +176,17 @@ body, html {
     background: #09090b; 
     display: flex;
     flex-direction: column; 
-    justify-content: space-between; /* El lienzo arriba/centro y el botón abajo fijado */
+    justify-content: space-between; /* Distribuye el lienzo arriba/centro y el botón abajo */
     align-items: center;
     box-sizing: border-box; 
-    padding: 20px 16px 30px 16px; /* Ajuste inferior prolijo */
+    padding: 20px 16px 30px 16px; 
 }
 
-/* El lienzo negro expandido de forma gigante usando el alto disponible */
+/* El lienzo negro expandido al límite del Viewport disponible */
 .lienzo-producto {
     position: relative; 
     overflow: hidden; 
-    background-color: #000000 !important; /* Estrictamente negro por dentro */
+    background-color: #000000 !important; /* Estrictamente negro por dentro solicitado */
     border: 1px solid #27272a;
     box-shadow: 0 25px 60px rgba(0,0,0,0.9);
     border-radius: 16px;
@@ -178,16 +195,16 @@ body, html {
 .foto-fondo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: 1; }
 .logo-marca-agua { position: absolute; z-index: 5; object-fit: contain; pointer-events: none; }
 
-/* 🔥 Dimensionamiento dinámico para pantallas de 6.5 pulgadas */
-.formato-post-vertical { width: 88vw; height: 110vw; max-height: 58vh; } 
-.formato-post-cuadrado { width: 85vw; height: 85vw; max-height: 52vh; }  
-.formato-historia { width: 82vw; height: 145.7vw; max-height: 65vh; } /* Uso masivo del vertical */
+/* 🔥 Ajuste de escala dinámico en base al Viewport del celular (Aprovecha las 6 pulgadas útiles) */
+.formato-post-vertical { width: 88vw; height: 110vw; max-height: 56vh; } 
+.formato-post-cuadrado { width: 84vw; height: 84vw; max-height: 50vh; }  
+.formato-historia { width: 80vw; height: 142.2vw; max-height: 64vh; } 
 
-/* 📥 BOTÓN FLOTANTE FIJADO GIGANTE */
+/* 📥 BOTÓN DE GUARDADO GIGANTE FIJADO ABAJO */
 .action-float-btn-pro {
     width: 100%; 
     max-width: 380px; 
-    padding: 22px; /* Más gordo y cómodo */
+    padding: 22px; 
     border: none; 
     border-radius: 18px;
     background: #ffffff; 
@@ -202,7 +219,7 @@ body, html {
 }
 .action-float-btn-pro:active { transform: scale(0.96); }
 
-/* Capas */
+/* Ubicaciones de marca de agua */
 .abajo-derecha { bottom: 5%; right: 5%; }
 .abajo-izquierda { bottom: 5%; left: 5%; }
 .arriba-derecha { top: 5%; right: 5%; }
@@ -210,7 +227,7 @@ body, html {
 .centro-gigante { top: 50%; left: 50%; transform: translate(-50%, -50%); }
 .error-msg { color: #f43f5e; font-size: 15px; margin-top: 12px; font-weight: bold; }
 
-/* Computadora de Escritorio (Mantiene compatibilidad de diseño) */
+/* Modo Escritorio (Mantiene consistencia si se abre en PC) */
 @media (min-width: 992px) {
     .deslizador-paginas { width: 100vw; height: calc(100vh - 75px); }
     #pag-controles { width: 420px; border-right: 1px solid var(--border-card); background: var(--bg-tarjeta); overflow-y: auto; }
