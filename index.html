@@ -2,90 +2,104 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Watermark SaaS - CapsulaWebs</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Watermark Pro SaaS</title>
     <link rel="stylesheet" href="style.css">
-    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    
     <script src="script.js" defer></script>
 </head>
 <body>
 
     <div id="pantalla-token" class="modal-token">
         <div class="modal-contenido">
-            <h2>Ingresar Token de Acceso</h2>
-            <p>Introduce el código provisto por CapsulaWebs para activar tus créditos.</p>
-            <input type="text" id="input-token" placeholder="Ej: EMREPRENDER2026">
-            <button onclick="validarToken()">Activar Cuenta</button>
+            <h2>Watermark Pro</h2>
+            <p>Introduce tu token de acceso comercial</p>
+            <input type="text" id="input-token" placeholder="TOKEN DE ACCESO">
+            <button onclick="validarToken()" class="btn-control-remoto">INGRESAR</button>
             <div id="error-token" class="error-msg"></div>
         </div>
     </div>
 
-    <div class="interfaz-contenedor view-oculta" id="interfaz-principal">
+    <div class="app-contenedor view-oculta" id="interfaz-principal">
         
-        <div class="panel-control">
-            <div class="header-saas">
-                <h2>Watermark Pro</h2>
-                <div class="badge-creditos">Fotos restantes: <span id="contador-creditos">0</span></div>
-            </div>
-            
-            <div class="campo">
-                <label>1. Formato de Instagram:</label>
-                <select id="select-formato">
-                    <option value="post-vertical">📸 Post Feed Vertical (4:5)</option>
-                    <option value="post-cuadrado">🔳 Post Feed Cuadrado (1:1)</option>
-                    <option value="historia">📱 Historia / Reel (9:16)</option>
-                </select>
-            </div>
-            
-            <div class="campo">
-                <label>2. Foto del Producto:</label>
-                <input type="file" id="input-foto" accept="image/*">
-            </div>
-
-            <div class="campo">
-                <label>3. Subir Marca de Agua / Logo (PNG):</label>
-                <input type="file" id="input-logo" accept="image/*">
-            </div>
-
-            <div class="campo">
-                <label>4. Posición de la Marca:</label>
-                <select id="select-posicion">
-                    <option value="abajo-derecha">Abajo a la Derecha</option>
-                    <option value="abajo-izquierda">Abajo a la Izquierda</option>
-                    <option value="arriba-derecha">Arriba a la Derecha</option>
-                    <option value="arriba-izquierda">Arriba a la Izquierda</option>
-                    <option value="centro-gigante">Centro (Marca de Agua Gigante)</option>
-                </select>
-            </div>
-
-            <div class="campo">
-                <label>5. Opacidad de la Marca:</label>
-                <input type="range" id="range-opacidad" min="0.1" max="1" step="0.05" value="0.85">
-            </div>
-
-            <div class="campo">
-                <label>6. Tamaño de la Marca (%):</label>
-                <input type="range" id="range-tamano" min="10" max="80" step="5" value="30">
-            </div>
-            
-            <div class="acciones-panel">
-                <button type="button" class="btn-descarga-sp" id="btn-descargar" onclick="procesarDescarga()">📥 Descargar Imagen Lista</button>
-                <button type="button" class="btn-logout" onclick="cerrarSesion()">Cerrar Sesión</button>
-            </div>
+        <div class="nav-superior">
+            <button class="tab-btn activo" id="btn-tab-controles" onclick="cambiarPagina(0)">⚙️ Configurar</button>
+            <button class="tab-btn" id="btn-tab-lienzo" onclick="cambiarPagina(1)">👁️ Ver Placa</button>
         </div>
 
-        <div class="zona-placa">
-            <div class="lienzo-producto formato-post-vertical" id="lienzo-objetivo">
-                
-                <div class="foto-fondo" id="placa-foto"></div>
-                
-                <img class="logo-marca-agua abajo-derecha" id="placa-logo" src="" style="display: none;">
-                
-            </div>
-        </div>
+        <div class="deslizador-paginas" id="deslizador-paginas">
+            
+            <div class="pagina-app" id="pag-controles">
+                <div class="wrapper-controles">
+                    
+                    <div class="info-creditos-card">
+                        <span>FOTOS DISPONIBLES</span>
+                        <h3 id="contador-creditos">0</h3>
+                    </div>
 
+                    <div class="control-card">
+                        <label class="label-remoto">Formato de Salida</label>
+                        <div class="grilla-botones" data-target="formato">
+                            <button class="btn-remoto activo" data-value="post-vertical">Vertical (4:5)</button>
+                            <button class="btn-remoto" data-value="post-cuadrado">Cuadrado (1:1)</button>
+                            <button class="btn-remoto" data-value="historia">Historia (9:16)</button>
+                        </div>
+                    </div>
+
+                    <div class="control-card">
+                        <label class="label-remoto">Cargar Multimedia</label>
+                        <div class="grilla-botones-archivos">
+                            <label class="btn-remoto file-label">
+                                📸 Foto Producto
+                                <input type="file" id="input-foto" accept="image/*" style="display:none;">
+                            </label>
+                            <label class="btn-remoto file-label">
+                                🏷️ Tu Marca (PNG)
+                                <input type="file" id="input-logo" accept="image/*" style="display:none;">
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="control-card">
+                        <label class="label-remoto">Ubicación de Marca</label>
+                        <div class="grilla-botones cuadricula" data-target="posicion">
+                            <button class="btn-remoto" data-value="arriba-izquierda">↖️ Sup. Izq</button>
+                            <button class="btn-remoto" data-value="arriba-derecha">↗️ Sup. Der</button>
+                            <button class="btn-remoto" data-value="abajo-izquierda">↙️ Inf. Izq</button>
+                            <button class="btn-remoto activo" data-value="abajo-derecha">↘️ Inf. Der</button>
+                            <button class="btn-remoto full-width" data-value="centro-gigante">☀️ Centro Gigante</button>
+                        </div>
+                    </div>
+
+                    <div class="control-card">
+                        <label class="label-remoto">Opacidad de Marca</label>
+                        <input type="range" id="range-opacidad" min="0.1" max="1" step="0.05" value="0.85" class="slider-remoto">
+                    </div>
+
+                    <div class="control-card">
+                        <label class="label-remoto">Tamaño de Marca</label>
+                        <input type="range" id="range-tamano" min="10" max="80" step="5" value="30" class="slider-remoto">
+                    </div>
+
+                    <button class="btn-logout-remoto" onclick="cerrarSesion()">Cerrar sesión de comercio</button>
+                </div>
+            </div>
+
+            <div class="pagina-app" id="pag-lienzo">
+                <div class="workspace-placa">
+                    
+                    <div class="lienzo-producto formato-post-vertical" id="lienzo-objetivo">
+                        <div class="foto-fondo" id="placa-foto"></div>
+                        <img class="logo-marca-agua abajo-derecha" id="placa-logo" src="" style="display: none;">
+                    </div>
+
+                    <button type="button" class="action-float-btn" id="btn-descargar" onclick="procesarDescarga()">
+                        📥 GUARDAR IMAGEN EN GALERÍA
+                    </button>
+                </div>
+            </div>
+
+        </div>
     </div>
 
 </body>

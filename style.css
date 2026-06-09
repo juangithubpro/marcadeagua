@@ -1,136 +1,161 @@
+/* ==========================================================================
+   🛠️ APARIENCIA APP GRIS MINIMALISTA
+   ========================================================================== */
 :root {
-    --bg-gris-oscuro: #1e1e24;  
-    --bg-gris-medio: #2d2d3a;   
-    --bg-workspace: #141419;    
-    --text-main: #ffffff;
-    --text-muted: #a0a0b8;
-    --accent: #3b82f6;          
-    --success: #10b981;
-    --border: #3a3a4c;
+    --bg-app: #141416;         /* Gris fondo app */
+    --bg-tarjeta: #1c1c1e;     /* Gris para módulos estilo remoto */
+    --bg-input: #262629;       /* Gris interno de selectores */
+    --text-principal: #ffffff;
+    --text-secundario: #8e8e93;/* Gris iOS/Xiaomi desaturado */
+    --azul-sistema: #2563eb;
+    --border-card: #2c2c2e;
 }
 
-body {
+body, html {
     margin: 0; padding: 0;
+    width: 100%; height: 100%;
+    background-color: var(--bg-app);
+    color: var(--text-principal);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-    background-color: var(--bg-workspace); color: var(--text-main);
-    -webkit-font-smoothing: antialiased;
+    overflow: hidden; /* Elimina scroll vertical del cuerpo */
 }
 
 .view-oculta { display: none !important; }
 
-/* 🔑 LOGIN */
+/* 🔑 LOGIN ESTÁTICO SIN ZOOM */
 .modal-token {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: var(--bg-workspace); display: flex; justify-content: center; align-items: center; z-index: 100;
+    background: var(--bg-app); display: flex; justify-content: center; align-items: center; z-index: 100;
 }
 .modal-contenido {
-    background: var(--bg-gris-oscuro); padding: 40px 25px; border-radius: 20px; border: 1px solid var(--border);
-    text-align: center; max-width: 380px; width: 85%;
+    background: var(--bg-tarjeta); padding: 40px 25px; border-radius: 24px;
+    border: 1px solid var(--border-card); text-align: center; width: 85%; max-width: 360px;
 }
-.modal-contenido h2 { margin-top: 0; color: var(--accent); font-size: 26px; }
+.modal-contenido h2 { margin: 0 0 10px 0; font-size: 26px; font-weight: 800; }
+.modal-contenido p { color: var(--text-secundario); font-size: 14px; margin-bottom: 25px; }
 .modal-contenido input {
-    width: 100%; padding: 16px; background: var(--bg-gris-medio); border: 1px solid var(--border);
-    color: #fff; border-radius: 12px; text-align: center; font-size: 18px; font-weight: bold; box-sizing: border-box; margin-bottom: 20px;
-}
-.modal-contenido button {
-    width: 100%; padding: 16px; background: var(--accent); color: #fff; border: none; font-weight: bold; border-radius: 12px; font-size: 16px;
+    width: 100%; padding: 16px; background: var(--bg-input); border: 1px solid var(--border-card);
+    color: #fff; border-radius: 14px; text-align: center; font-size: 16px; font-weight: bold; box-sizing: border-box; margin-bottom: 20px;
 }
 
-/* 💻 INTERFAZ GLOBAL */
-.interfaz-contenedor {
-    display: flex;
-    flex-direction: column; 
-    min-height: 100vh;
+/* 💻 MOTOR HORIZONTAL (SWIPE NATIVO) */
+.app-contenedor {
+    display: flex; flex-direction: column; width: 100vw; height: 100vh;
+}
+.nav-superior {
+    height: 60px; background: var(--bg-tarjeta); display: flex;
+    border-bottom: 1px solid var(--border-card); z-index: 10;
+}
+.tab-btn {
+    flex: 1; border: none; background: transparent; color: var(--text-secundario);
+    font-weight: 700; font-size: 15px; cursor: pointer; transition: color 0.2s;
+}
+.tab-btn.activo { color: var(--text-principal); border-bottom: 3px solid var(--text-principal); }
+
+.deslizador-paginas {
+    flex: 1; display: flex; width: 200vw; /* Dos pantallas de ancho */
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: calc(100vh - 60px);
+}
+.pagina-app {
+    width: 100vw; height: 100%; overflow-y: auto; box-sizing: border-box;
 }
 
-/* 🛠️ PANEL DE CONTROLES (ARRIBA) */
-.panel-control {
-    width: 100%; 
-    background: var(--bg-gris-oscuro); 
-    padding: 30px 24px; 
-    box-sizing: border-box;
-    border-bottom: 2px solid var(--border);
-    display: flex; 
-    flex-direction: column; 
-    gap: 25px;
-    order: 1; 
+/* ⚙️ CONTROLES ESTILO REMOTO */
+.wrapper-controles { padding: 20px; display: flex; flex-direction: column; gap: 20px; padding-bottom: 50px; }
+
+.info-creditos-card {
+    background: var(--bg-tarjeta); border-radius: 18px; padding: 15px; text-align: center;
+    border: 1px solid var(--border-card);
+}
+.info-creditos-card span { font-size: 11px; font-weight: 700; color: var(--text-secundario); letter-spacing: 1px; }
+.info-creditos-card h3 { margin: 5px 0 0 0; font-size: 28px; font-weight: 800; color: #10b981; }
+
+.control-card {
+    background: var(--bg-tarjeta); padding: 18px; border-radius: 20px;
+    border: 1px solid var(--border-card); display: flex; flex-direction: column; gap: 12px;
+}
+.label-remoto { font-size: 13px; font-weight: 700; color: var(--text-secundario); text-transform: uppercase; }
+
+/* GRILLAS DE BOTONES INTERACTIVOS (XIAOMI DESIGN) */
+.grilla-botones { display: flex; gap: 8px; width: 100%; }
+.grilla-botones-archivos { display: flex; gap: 10px; }
+.cuadricula { display: grid; grid-template-columns: 1fr 1fr; }
+.full-width { grid-column: span 2; }
+
+.btn-remoto {
+    flex: 1; padding: 14px 10px; background: var(--bg-input); border: 1px solid transparent;
+    color: var(--text-principal); font-weight: 600; font-size: 14px; border-radius: 12px;
+    cursor: pointer; text-align: center; transition: all 0.15s;
+}
+.btn-remoto.activo {
+    background: #ffffff !important; color: #000000 !important; font-weight: 700;
+}
+.file-label { display: flex; align-items: center; justify-content: center; }
+
+/* Sliders limpios */
+.slider-remoto {
+    -webkit-appearance: none; width: 100%; height: 12px; border-radius: 6px;
+    background: var(--bg-input); outline: none; accent-color: var(--text-principal);
+}
+.slider-remoto::-webkit-slider-thumb {
+    -webkit-appearance: none; appearance: none; width: 22px; height: 22px;
+    border-radius: 50%; background: #ffffff; cursor: pointer; box-shadow: 0 2px 6px rgba(0,0,0,0.4);
 }
 
-.header-saas { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
-.header-saas h2 { margin: 0; font-size: 24px; font-weight: 800; }
-.badge-creditos {
-    background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 8px 16px;
-    border-radius: 50px; font-size: 14px; font-weight: 700; border: 1px solid rgba(16, 185, 129, 0.3);
+/* 👁️ LIENZO CENTRADO NEGRO ABSOLUTO */
+.workspace-placa {
+    width: 100%; height: 100%; background: #0c0c0e; display: flex;
+    flex-direction: column; justify-content: center; align-items: center; position: relative;
+    box-sizing: border-box; padding: 20px;
 }
-
-.campo { display: flex; flex-direction: column; gap: 12px; }
-.campo label { 
-    font-size: 16px; 
-    font-weight: 700; 
-    color: var(--text-main);
-}
-
-.campo select, .campo input[type="file"] {
-    background: var(--bg-gris-medio); border: 2px solid var(--border); 
-    padding: 16px; color: #fff; border-radius: 14px; font-size: 16px; font-weight: 600;
-}
-
-.campo input[type="range"] { 
-    accent-color: var(--accent); height: 10px; background: var(--bg-gris-medio); border-radius: 50px; margin: 8px 0; cursor: pointer;
-}
-
-.acciones-panel { display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
-.btn-descarga-sp {
-    width: 100%; padding: 18px; border: none; border-radius: 16px;
-    background: var(--accent); color: #fff; font-weight: 800; font-size: 17px; text-transform: uppercase;
-    cursor: pointer; box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-}
-.btn-descarga-sp:disabled { background: #333344 !important; color: #666; box-shadow: none; cursor: not-allowed; }
-.btn-logout { background: transparent; border: none; color: #ef4444; cursor: pointer; font-size: 14px; font-weight: 600; align-self: center; }
-
-/* 📱 ÁREA DE TRABAJO DEL LIENZO (ABAJO) */
-.zona-placa {
-    flex: 1; display: flex; justify-content: center; align-items: center;
-    padding: 40px 20px; 
-    background-color: var(--bg-workspace); 
-    order: 2; 
-}
-
-/* 🖼️ EL LIENZO - NEGRO PURO */
 .lienzo-producto {
     position: relative; overflow: hidden; 
-    background-color: #000000 !important; 
-    box-shadow: 0 20px 45px rgba(0,0,0,0.6);
-    border: 2px solid var(--border);
-    border-radius: 12px;
-    max-width: 100%;
+    background-color: #000000 !important; /* Estrictamente negro por dentro */
+    border-radius: 14px; box-shadow: 0 25px 60px rgba(0,0,0,0.8);
+    margin-bottom: 80px; /* Margen para no pisar el botón de guardado */
 }
 .foto-fondo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: 1; }
+.logo-marca-agua { position: absolute; z-index: 5; object-fit: contain; pointer-events: none; }
 
+/* Formatos Exactos */
 .formato-post-vertical { width: 320px; height: 400px; } 
 .formato-post-cuadrado { width: 320px; height: 320px; } 
-.formato-historia { width: 300px; height: 533px; }      
+.formato-historia { width: 290px; height: 515px; }
 
-.logo-marca-agua {
-    position: absolute; z-index: 5;
-    object-fit: contain;
-    pointer-events: none;
+/* Botón de control remoto tradicional para acciones */
+.btn-control-remoto {
+    background: #fff; color: #000; border: none; font-weight: 700;
+    padding: 14px; border-radius: 12px; font-size: 15px; width: 100%; cursor: pointer;
 }
+.btn-logout-remoto { background: transparent; border: none; color: #ef4444; font-weight: 600; font-size: 13px; cursor: pointer; margin-top: 15px; }
 
+/* 📥 BOTÓN FLOTANTE IMPONENTE DE GUARDADO */
+.action-float-btn {
+    position: absolute; bottom: 25px; left: 50%; transform: translateX(-50%);
+    width: 85%; max-width: 340px; padding: 18px; border: none; border-radius: 16px;
+    background: #ffffff; color: #000000; font-weight: 800; font-size: 14px;
+    text-transform: uppercase; letter-spacing: 0.5px; cursor: pointer; z-index: 20;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5); transition: background 0.2s, transform 0.1s;
+}
+.action-float-btn:active { transform: translateX(-50%) scale(0.96); }
+.action-float-btn:disabled { background: #2c2c2e !important; color: #555 !important; box-shadow: none; }
+
+/* Posiciones de marcas */
 .abajo-derecha { bottom: 15px; right: 15px; }
 .abajo-izquierda { bottom: 15px; left: 15px; }
 .arriba-derecha { top: 15px; right: 15px; }
 .arriba-izquierda { top: 15px; left: 15px; }
 .centro-gigante { top: 50%; left: 50%; transform: translate(-50%, -50%); }
-
 .error-msg { color: #ef4444; font-size: 14px; margin-top: 10px; font-weight: bold; }
 
-/* 💻 MODO ESCRITORIO */
+/* Computadora */
 @media (min-width: 992px) {
-    .interfaz-contenedor { flex-direction: row; }
-    .panel-control { width: 400px; height: 100vh; border-radius: 0; border-bottom: none; border-right: 2px solid var(--border); order: 1; overflow-y: auto; }
-    .zona-placa { order: 2; padding: 45px; }
-    .formato-post-vertical { width: 480px; height: 600px; } 
-    .formato-post-cuadrado { width: 480px; height: 480px; } 
-    .formato-historia { width: 340px; height: 604px; }
+    .deslizador-paginas { width: 100vw; height: calc(100vh - 60px); }
+    #pag-controles { width: 400px; border-right: 1px solid var(--border-card); background: var(--bg-tarjeta); }
+    #pag-lienzo { flex: 1; width: auto; }
+    .nav-superior { display: none; }
+    .formato-post-vertical { width: 440px; height: 550px; } 
+    .formato-post-cuadrado { width: 440px; height: 440px; } 
+    .formato-historia { width: 330px; height: 586px; }
 }
