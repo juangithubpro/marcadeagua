@@ -42,7 +42,12 @@
             </div>
 
             <div class="campo">
-                <label>3. Posición del Logo:</label>
+                <label>3. Subir Marca de Agua / Logo (PNG):</label>
+                <input type="file" id="input-logo" accept="image/*">
+            </div>
+
+            <div class="campo">
+                <label>4. Posición de la Marca:</label>
                 <select id="select-posicion">
                     <option value="abajo-derecha">Abajo a la Derecha</option>
                     <option value="abajo-izquierda">Abajo a la Izquierda</option>
@@ -53,12 +58,12 @@
             </div>
 
             <div class="campo">
-                <label>4. Opacidad del Logo:</label>
+                <label>5. Opacidad de la Marca:</label>
                 <input type="range" id="range-opacidad" min="0.1" max="1" step="0.05" value="0.85">
             </div>
 
             <div class="campo">
-                <label>5. Tamaño del Logo (%):</label>
+                <label>6. Tamaño de la Marca (%):</label>
                 <input type="range" id="range-tamano" min="10" max="80" step="5" value="30">
             </div>
             
@@ -71,15 +76,14 @@
         <div class="zona-placa">
             <div class="lienzo-producto formato-post-vertical" id="lienzo-objetivo">
                 
-                <div class="foto-fondo" id="placa-foto" style="background-image: url('https://via.placeholder.com/800x1000/222/fff?text=Subí+tu+Producto');"></div>
+                <div class="foto-fondo" id="placa-foto"></div>
                 
-                <div class="logo-marca-agua abajo-derecha" id="placa-logo"></div>
+                <img class="logo-marca-agua abajo-derecha" id="placa-logo" src="" style="display: none;">
                 
             </div>
         </div>
 
     </div>
 
-    <script src="script.js"></script>
 </body>
 </html>
