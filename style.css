@@ -1,74 +1,84 @@
+/* ==========================================================================
+   🎨 ESTILOS BASE Y VARIABLES (MODERNO & DARK)
+   ========================================================================== */
+:root {
+    --bg-main: #0c0c10;
+    --bg-card: #16161f;
+    --bg-input: #1f1f2e;
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --text-main: #ffffff;
+    --text-muted: #94a3b8;
+    --success: #10b981;
+    --border: #2e2e42;
+}
+
 body {
     margin: 0; padding: 0;
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    background: #111116; color: #fff;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-main); color: var(--text-main);
+    -webkit-font-smoothing: antialiased;
 }
-.interfaz-contenedor { display: flex; flex-direction: row; min-height: 100vh; }
+
 .view-oculta { display: none !important; }
 
-/* 🔑 PANTALLA LOGIN TOKEN */
+/* ==========================================================================
+   🔑 PANTALLA LOGIN TOKEN
+   ========================================================================== */
 .modal-token {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #09090c; display: flex; justify-content: center; align-items: center; z-index: 100;
+    background: var(--bg-main); display: flex; justify-content: center; align-items: center; z-index: 100;
 }
 .modal-contenido {
-    background: #1a1a24; padding: 40px; border-radius: 12px; border: 1px solid #2a2a3a;
-    text-align: center; max-width: 400px; width: 90%;
+    background: var(--bg-card); padding: 35px 25px; border-radius: 16px; border: 1px solid var(--border);
+    text-align: center; max-width: 380px; width: 85%; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
 }
-.modal-contenido h2 { margin-top: 0; color: #007bff; }
-.modal-contenido p { color: #aaa; font-size: 14px; margin-bottom: 20px; }
+.modal-contenido h2 { margin-top: 0; color: var(--accent); font-size: 24px; }
+.modal-contenido p { color: var(--text-muted); font-size: 14px; margin-bottom: 25px; line-height: 1.4; }
 .modal-contenido input {
-    width: 100%; padding: 12px; background: #111116; border: 1px solid #3a3a52;
-    color: #fff; border-radius: 6px; text-align: center; font-size: 16px; font-weight: bold;
-    box-sizing: border-box; margin-bottom: 15px;
+    width: 100%; padding: 14px; background: var(--bg-input); border: 1px solid var(--border);
+    color: #fff; border-radius: 10px; text-align: center; font-size: 16px; font-weight: bold;
+    box-sizing: border-box; margin-bottom: 20px; transition: border 0.2s;
 }
+.modal-contenido input:focus { border-color: var(--accent); outline: none; }
 .modal-contenido button {
-    width: 100%; padding: 12px; background: #007bff; color: #fff; border: none;
-    font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 15px;
+    width: 100%; padding: 14px; background: var(--accent); color: #fff; border: none;
+    font-weight: bold; border-radius: 10px; cursor: pointer; font-size: 16px; transition: background 0.2s;
+}
+.modal-contenido button:hover { background: var(--accent-hover); }
+
+/* ==========================================================================
+   💻 ESTRUCTURA DE LA INTERFAZ PRINCIPAL
+   ========================================================================== */
+.interfaz-contenedor {
+    display: flex;
+    flex-direction: column; /* Cambiado a columna por defecto (Pensado para Celular) */
+    min-height: 100vh;
 }
 
-/* 💻 INTERFAZ PRINCIPAL */
-.panel-control {
-    width: 350px; background: #1a1a24; padding: 25px;
-    box-sizing: border-box; border-right: 1px solid #2a2a3a;
-    display: flex; flex-direction: column; gap: 18px;
-    height: 100vh; overflow-y: auto;
+/* 📱 ÁREA DE PREVISUALIZACIÓN (MÓVIL EN FOCO) */
+.zona-placa {
+    flex: 1; display: flex; justify-content: center; align-items: center;
+    padding: 30px 15px; background: #060608;
+    order: 1; /* El lienzo va primero en el flujo visual del celular */
 }
-.header-saas h2 { margin: 0 0 5px 0; font-size: 20px; }
-.badge-creditos {
-    background: #1e3a24; color: #63e283; padding: 6px 12px;
-    border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block;
-}
-.campo { display: flex; flex-direction: column; gap: 6px; }
-.campo label { font-size: 12px; font-weight: bold; color: #ccc; }
-.campo select, .campo input[type="file"] {
-    background: #111116; border: 1px solid #3a3a52; padding: 10px; color: #fff; border-radius: 6px;
-}
-.campo input[type="range"] { accent-color: #007bff; cursor: pointer; }
 
-.acciones-panel { margin-top: auto; display: flex; flex-direction: column; gap: 10px; padding-top: 15px; }
-.btn-descarga-sp {
-    width: 100%; padding: 14px; border: none; border-radius: 8px;
-    background: #007bff; color: #fff; font-weight: bold; font-size: 14px; cursor: pointer;
-}
-.btn-descarga-sp:disabled { background: #333 !important; color: #777; cursor: not-allowed; }
-.btn-logout { background: transparent; border: none; color: #ff4d4d; cursor: pointer; font-size: 12px; margin-top: 5px; }
-
-.zona-placa { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; background: #09090c; }
-
-/* 🖼️ LIENZO DE FORMATOS (ASPECT RATIO INSTAGRAM) */
+/* 🖼️ LIENZO DE FORMATOS CON ADAPTACIÓN INTELIGENTE */
 .lienzo-producto {
     position: relative; overflow: hidden; background: #000;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.7);
+    border-radius: 4px;
+    max-width: 100%; /* Evita que desborde el ancho de la pantalla */
+    transition: width 0.3s ease, height 0.3s ease;
 }
 .foto-fondo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: 1; }
 
-/* Dynamic Layout Classes */
-.formato-post-vertical { width: 440px; height: 550px; } /* 4:5 */
-.formato-post-cuadrado { width: 480px; height: 480px; } /* 1:1 */
-.formato-historia { width: 337px; height: 600px; }      /* 9:16 */
+/* Proporciones escaladas óptimas para mobile sin romper los aspectos */
+.formato-post-vertical { width: 340px; height: 425px; } /* 4:5 */
+.formato-post-cuadrado { width: 340px; height: 340px; } /* 1:1 */
+.formato-historia { width: 320px; height: 568px; }      /* 9:16 */
 
-/* 🏷️ LOGO CAPA EN MARCA DE AGUA */
+/* 🏷️ CAPA DEL LOGO EN MARCA DE AGUA */
 .logo-marca-agua {
     position: absolute; z-index: 5;
     background-repeat: no-repeat !important;
@@ -76,18 +86,77 @@ body {
     background-size: contain !important;
     pointer-events: none;
 }
-
-/* Clases de Posicionamiento Quirúrgico */
-.abajo-derecha { bottom: 20px; right: 20px; }
-.abajo-izquierda { bottom: 20px; left: 20px; }
-.arriba-derecha { top: 20px; right: 20px; }
-.arriba-izquierda { top: 20px; left: 20px; }
+.abajo-derecha { bottom: 15px; right: 15px; }
+.abajo-izquierda { bottom: 15px; left: 15px; }
+.arriba-derecha { top: 15px; right: 15px; }
+.arriba-izquierda { top: 15px; left: 15px; }
 .centro-gigante { top: 50%; left: 50%; transform: translate(-50%, -50%); }
 
-.error-msg { color: #ff4d4d; font-size: 13px; margin-top: 10px; font-weight: bold; }
 
-@media (max-width: 768px) {
-    .interfaz-contenedor { flex-direction: column; }
-    .panel-control { width: 100%; height: auto; }
-    .lienzo-producto { transform: scale(0.8); }
+/* 🛠️ PANEL DE CONTROLES ESTILO APP */
+.panel-control {
+    width: 100%; background: var(--bg-card); 
+    padding: 25px 20px; box-sizing: border-box;
+    border-top: 1px solid var(--border);
+    display: flex; flex-direction: column; gap: 20px;
+    order: 2; /* Los controles van abajo para operar cómodos con el pulgar */
+    border-radius: 24px 24px 0 0; /* Curvatura tipo tarjeta moderna */
+    box-shadow: 0 -10px 25px rgba(0,0,0,0.3);
+}
+
+.header-saas { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
+.header-saas h2 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+.badge-creditos {
+    background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 6px 14px;
+    border-radius: 50px; font-size: 13px; font-weight: 600; border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.campo { display: flex; flex-direction: column; gap: 8px; }
+.campo label { font-size: 13px; font-weight: 600; color: var(--text-muted); }
+
+/* Estilización de Inputs Modernos */
+.campo select {
+    background: var(--bg-input); border: 1px solid var(--border); padding: 12px; 
+    color: #fff; border-radius: 10px; font-size: 14px; cursor: pointer;
+    appearance: none; -webkit-appearance: none; /* Saca la flecha nativa fea */
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat; background-position: right 12px center; background-size: 16px;
+}
+.campo input[type="file"] {
+    background: var(--bg-input); border: 1px solid var(--border); padding: 10px; 
+    color: var(--text-muted); border-radius: 10px; font-size: 13px;
+}
+/* File input button personalizado estilo pro */
+.campo input[type="file"]::-webkit-file-upload-button {
+    background: var(--border); border: none; color: #fff; padding: 6px 12px;
+    border-radius: 6px; font-weight: bold; margin-right: 10px; cursor: pointer;
+}
+
+.campo input[type="range"] { 
+    accent-color: var(--accent); height: 6px; border-radius: 50px; background: var(--bg-input); cursor: pointer;
+}
+
+.acciones-panel { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+.btn-descarga-sp {
+    width: 100%; padding: 16px; border: none; border-radius: 12px;
+    background: var(--accent); color: #fff; font-weight: bold; font-size: 15px; 
+    cursor: pointer; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    transition: background 0.2s, transform 0.1s;
+}
+.btn-descarga-sp:active { transform: scale(0.98); }
+.btn-descarga-sp:disabled { background: #2e2e3a !important; color: #555; cursor: not-allowed; box-shadow: none; }
+.btn-logout { background: transparent; border: none; color: #ef4444; cursor: pointer; font-size: 13px; font-weight: 500; align-self: center; }
+
+.error-msg { color: #ef4444; font-size: 13px; margin-top: 10px; font-weight: bold; }
+
+/* ==========================================================================
+   💻 RESPONSIVE DESIGN (Para Computadora / Pantallas Grandes)
+   ========================================================================== */
+@media (min-width: 992px) {
+    .interfaz-contenedor { flex-direction: row; }
+    .panel-control { width: 380px; height: 100vh; border-radius: 0; border-top: none; border-right: 1px solid var(--border); order: 1; }
+    .zona-placa { order: 2; padding: 40px; }
+    .formato-post-vertical { width: 500px; height: 625px; } 
+    .formato-post-cuadrado { width: 500px; height: 500px; } 
+    .formato-historia { width: 360px; height: 640px; }
 }
