@@ -1,15 +1,18 @@
+// ==========================================================================
+// 🔐 BASE DE DATOS DE CLIENTES MANUAL
+// ==========================================================================
 const BASE_DATOS_CLIENTES = {
     "NADA2026": { nombre: "Nada Digital", creditosIniciales: 20 },
     "SHOWROOMSP": { nombre: "Showroom Sáenz Peña", creditosIniciales: 50 }
 };
 
-// Captura de Elementos
+// Captura de Elementos de la Interfaz
 const selectFormato = document.getElementById('select-formato');
 const selectPosicion = document.getElementById('select-posicion');
 const rangeOpacidad = document.getElementById('range-opacidad');
 const rangeTamano = document.getElementById('range-tamano');
 const inputFoto = document.getElementById('input-foto');
-const inputLogo = document.getElementById('input-logo'); // Elemento del logo
+const inputLogo = document.getElementById('input-logo'); 
 
 const lienzoObjetivo = document.getElementById('lienzo-objetivo');
 const placaFoto = document.getElementById('placa-foto');
@@ -17,6 +20,7 @@ const placaLogo = document.getElementById('placa-logo');
 const contadorCreditos = document.getElementById('contador-creditos');
 const btnDescargar = document.getElementById('btn-descargar');
 
+// Al iniciar, verificamos sesión previa
 window.onload = function() {
     const tokenGuardado = localStorage.getItem('saas_token');
     if (tokenGuardado && BASE_DATOS_CLIENTES[tokenGuardado]) {
@@ -24,6 +28,7 @@ window.onload = function() {
     }
 };
 
+// 🔑 Lógica del Token
 function validarToken() {
     const tokenInput = document.getElementById('input-token').value.trim().toUpperCase();
     const errorMsg = document.getElementById('error-token');
@@ -59,8 +64,9 @@ function actualizarContadorPantalla(token) {
     }
 }
 
-// 🔄 Sincronizadores del Editor
+// 🔄 Sincronizadores en Vivo (Inputs del Panel)
 selectFormato.addEventListener('change', () => {
+    // Limpia las clases de formato previas y asigna la nueva
     lienzoObjetivo.className = `lienzo-producto formato-${selectFormato.value}`;
 });
 
@@ -83,7 +89,7 @@ function aplicarEstilosLogo() {
     }
 }
 
-// 🖼️ Lógica para subir la Foto del Producto
+// 🖼️ Procesar Foto del Producto
 inputFoto.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -95,21 +101,21 @@ inputFoto.addEventListener('change', (e) => {
     }
 });
 
-// 🏷️ Lógica para subir el Logo de forma Local (Evita errores de descarga)
+// 🏷️ Procesar subida de Logo Local
 inputLogo.addEventListener('change', (e) => {
     const file = e.target.files[0];
     if (file) {
         const reader = new FileReader();
         reader.onload = function(event) {
             placaLogo.src = event.target.result;
-            placaLogo.style.display = 'block'; // Mostramos la etiqueta img
+            placaLogo.style.display = 'block'; 
             aplicarEstilosLogo();
         };
         reader.readAsDataURL(file);
     }
 });
 
-// 📥 CÓDIGO DE DESCARGA PREMIUM CORREGIDO
+// 📥 Motor de Descarga (Corregido)
 async function procesarDescarga() {
     const token = localStorage.getItem('saas_token');
     let creditos = parseInt(localStorage.getItem(`creditos_${token}`));
@@ -123,22 +129,23 @@ async function procesarDescarga() {
         const canvas = await html2canvas(lienzoObjetivo, {
             useCORS: true,
             allowTaint: true,
-            scale: 3, // Calidad super nítida
+            scale: 3, 
             backgroundColor: null
         });
 
         const link = document.createElement("a");
-        link.download = `SaaS-Producto-${selectFormato.value.toUpperCase()}.png`;
+        link.download = `SaaS-Producto.png`;
         link.href = canvas.toDataURL("image/png", 1.0);
         link.click();
 
+        // Descontamos crédito
         creditos--;
         localStorage.setItem(`creditos_${token}`, creditos);
         actualizarContadorPantalla(token);
 
     } catch (err) {
         console.error(err);
-        alert("Error al renderizar.");
+        alert("Error al renderizar la imagen.");
         actualizarContadorPantalla(token);
     }
 }

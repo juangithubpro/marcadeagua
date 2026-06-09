@@ -1,10 +1,10 @@
 :root {
-    --bg-gris-oscuro: #1e1e24;  /* Gris moderno para los fondos de paneles */
-    --bg-gris-medio: #2d2d3a;   /* Gris para inputs y tarjetas */
-    --bg-workspace: #16161a;    /* Color del fondo donde descansa el lienzo */
+    --bg-gris-oscuro: #1e1e24;  
+    --bg-gris-medio: #2d2d3a;   
+    --bg-workspace: #141419;    
     --text-main: #ffffff;
     --text-muted: #a0a0b8;
-    --accent: #3b82f6;          /* Azul de énfasis */
+    --accent: #3b82f6;          
     --success: #10b981;
     --border: #3a3a4c;
 }
@@ -39,11 +39,11 @@ body {
 /* 💻 INTERFAZ GLOBAL */
 .interfaz-contenedor {
     display: flex;
-    flex-direction: column; /* Controles arriba, lienzo abajo por defecto */
+    flex-direction: column; 
     min-height: 100vh;
 }
 
-/* 🛠️ PANEL DE CONTROLES (AHORA ARRIBA, GRIS MODERNO) */
+/* 🛠️ PANEL DE CONTROLES (ARRIBA) */
 .panel-control {
     width: 100%; 
     background: var(--bg-gris-oscuro); 
@@ -53,7 +53,7 @@ body {
     display: flex; 
     flex-direction: column; 
     gap: 25px;
-    order: 1; /* Arriba en mobile */
+    order: 1; 
 }
 
 .header-saas { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
@@ -63,13 +63,11 @@ body {
     border-radius: 50px; font-size: 14px; font-weight: 700; border: 1px solid rgba(16, 185, 129, 0.3);
 }
 
-/* Letras de controles más grandes y marcadas */
 .campo { display: flex; flex-direction: column; gap: 12px; }
 .campo label { 
-    font-size: 16px; /* Agrandado técnico para fácil lectura */
+    font-size: 16px; 
     font-weight: 700; 
     color: var(--text-main);
-    letter-spacing: 0.5px;
 }
 
 .campo select, .campo input[type="file"] {
@@ -81,7 +79,6 @@ body {
     accent-color: var(--accent); height: 10px; background: var(--bg-gris-medio); border-radius: 50px; margin: 8px 0; cursor: pointer;
 }
 
-/* 📥 BOTÓN DE DESCARGA ENFOCADO */
 .acciones-panel { display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
 .btn-descarga-sp {
     width: 100%; padding: 18px; border: none; border-radius: 16px;
@@ -96,13 +93,13 @@ body {
     flex: 1; display: flex; justify-content: center; align-items: center;
     padding: 40px 20px; 
     background-color: var(--bg-workspace); 
-    order: 2; /* Abajo en mobile */
+    order: 2; 
 }
 
-/* 🖼️ EL LIENZO - ESTRICTAMENTE NEGRO */
+/* 🖼️ EL LIENZO - NEGRO PURO */
 .lienzo-producto {
     position: relative; overflow: hidden; 
-    background-color: #000000; /* Fondo negro puro */
+    background-color: #000000 !important; 
     box-shadow: 0 20px 45px rgba(0,0,0,0.6);
     border: 2px solid var(--border);
     border-radius: 12px;
@@ -110,19 +107,16 @@ body {
 }
 .foto-fondo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: 1; }
 
-/* Proporciones de marcos */
 .formato-post-vertical { width: 320px; height: 400px; } 
 .formato-post-cuadrado { width: 320px; height: 320px; } 
 .formato-historia { width: 300px; height: 533px; }      
 
-/* 🏷️ CAPA DE LA IMAGEN LOGO */
 .logo-marca-agua {
     position: absolute; z-index: 5;
     object-fit: contain;
     pointer-events: none;
 }
 
-/* Posiciones */
 .abajo-derecha { bottom: 15px; right: 15px; }
 .abajo-izquierda { bottom: 15px; left: 15px; }
 .arriba-derecha { top: 15px; right: 15px; }
@@ -131,14 +125,12 @@ body {
 
 .error-msg { color: #ef4444; font-size: 14px; margin-top: 10px; font-weight: bold; }
 
-/* ==========================================================================
-   💻 RESPONSIVE MODO COMPUTADORA
-   ========================================================================== */
+/* 💻 MODO ESCRITORIO */
 @media (min-width: 992px) {
     .interfaz-contenedor { flex-direction: row; }
     .panel-control { width: 400px; height: 100vh; border-radius: 0; border-bottom: none; border-right: 2px solid var(--border); order: 1; overflow-y: auto; }
     .zona-placa { order: 2; padding: 45px; }
     .formato-post-vertical { width: 480px; height: 600px; } 
     .formato-post-cuadrado { width: 480px; height: 480px; } 
-    .formato-history { width: 340px; height: 604px; }
+    .formato-historia { width: 340px; height: 604px; }
 }
