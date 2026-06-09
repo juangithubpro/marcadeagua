@@ -1,16 +1,18 @@
 /* ==========================================================================
-   🎨 ESTILOS BASE Y VARIABLES (MODERNO & DARK)
+   🎨 VARIABLES DE DISEÑO PREMIUM (UI ENFOCADA EN CONTROLES)
    ========================================================================== */
 :root {
-    --bg-main: #0c0c10;
-    --bg-card: #16161f;
-    --bg-input: #1f1f2e;
-    --accent: #2563eb;
-    --accent-hover: #1d4ed8;
+    --bg-main: #09090e;        /* Fondo profundo de la app */
+    --bg-workspace: #12121a;   /* Fondo de la zona donde flota el lienzo */
+    --bg-card: #181824;        /* Fondo de las tarjetas de control */
+    --bg-input: #222235;       /* Fondo de los selectores e inputs */
+    --accent: #2563eb;         /* Azul moderno principal */
+    --accent-gradient: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
     --text-main: #ffffff;
     --text-muted: #94a3b8;
     --success: #10b981;
-    --border: #2e2e42;
+    --border: #2b2b3d;
+    --border-lienzo: #3b82f6;  /* Color del borde que hará resaltar el lienzo */
 }
 
 body {
@@ -23,62 +25,63 @@ body {
 .view-oculta { display: none !important; }
 
 /* ==========================================================================
-   🔑 PANTALLA LOGIN TOKEN
+   🔑 PANTALLA LOGIN TOKEN (REDISEÑO MÁS LIMPIO)
    ========================================================================== */
 .modal-token {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background: var(--bg-main); display: flex; justify-content: center; align-items: center; z-index: 100;
 }
 .modal-contenido {
-    background: var(--bg-card); padding: 35px 25px; border-radius: 16px; border: 1px solid var(--border);
-    text-align: center; max-width: 380px; width: 85%; box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    background: var(--bg-card); padding: 40px 25px; border-radius: 20px; border: 1px solid var(--border);
+    text-align: center; max-width: 380px; width: 85%; box-shadow: 0 20px 40px rgba(0,0,0,0.6);
 }
-.modal-contenido h2 { margin-top: 0; color: var(--accent); font-size: 24px; }
-.modal-contenido p { color: var(--text-muted); font-size: 14px; margin-bottom: 25px; line-height: 1.4; }
+.modal-contenido h2 { margin-top: 0; color: var(--accent); font-size: 26px; font-weight: 800; }
+.modal-contenido p { color: var(--text-muted); font-size: 14px; margin-bottom: 25px; line-height: 1.5; }
 .modal-contenido input {
-    width: 100%; padding: 14px; background: var(--bg-input); border: 1px solid var(--border);
-    color: #fff; border-radius: 10px; text-align: center; font-size: 16px; font-weight: bold;
+    width: 100%; padding: 16px; background: var(--bg-input); border: 1px solid var(--border);
+    color: #fff; border-radius: 12px; text-align: center; font-size: 18px; font-weight: bold;
     box-sizing: border-box; margin-bottom: 20px; transition: border 0.2s;
 }
 .modal-contenido input:focus { border-color: var(--accent); outline: none; }
 .modal-contenido button {
-    width: 100%; padding: 14px; background: var(--accent); color: #fff; border: none;
-    font-weight: bold; border-radius: 10px; cursor: pointer; font-size: 16px; transition: background 0.2s;
+    width: 100%; padding: 16px; background: var(--accent-gradient); color: #fff; border: none;
+    font-weight: bold; border-radius: 12px; cursor: pointer; font-size: 16px; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
-.modal-contenido button:hover { background: var(--accent-hover); }
 
 /* ==========================================================================
-   💻 ESTRUCTURA DE LA INTERFAZ PRINCIPAL
+   💻 INTERFAZ CONTENEDORA PRINCIPAL
    ========================================================================== */
 .interfaz-contenedor {
     display: flex;
-    flex-direction: column; /* Cambiado a columna por defecto (Pensado para Celular) */
+    flex-direction: column;
     min-height: 100vh;
 }
 
-/* 📱 ÁREA DE PREVISUALIZACIÓN (MÓVIL EN FOCO) */
+/* 📱 ÁREA DEL LIENZO (AHORA RESALTA SOBRE EL FONDO) */
 .zona-placa {
     flex: 1; display: flex; justify-content: center; align-items: center;
-    padding: 30px 15px; background: #060608;
-    order: 1; /* El lienzo va primero en el flujo visual del celular */
+    padding: 35px 20px; 
+    background-color: var(--bg-workspace); /* Color diferenciador gris/pizarra */
+    order: 1;
 }
 
-/* 🖼️ LIENZO DE FORMATOS CON ADAPTACIÓN INTELIGENTE */
+/* 🖼️ EL LIENZO CON DISTINCIÓN VISUAL MÁXIMA */
 .lienzo-producto {
     position: relative; overflow: hidden; background: #000;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.7);
-    border-radius: 4px;
-    max-width: 100%; /* Evita que desborde el ancho de la pantalla */
-    transition: width 0.3s ease, height 0.3s ease;
+    box-shadow: 0 20px 45px rgba(0,0,0,0.8);
+    border: 2px solid var(--border-lienzo); /* Resalta los límites de la imagen */
+    border-radius: 8px;
+    max-width: 100%;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1), height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .foto-fondo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: 1; }
 
-/* Proporciones escaladas óptimas para mobile sin romper los aspectos */
-.formato-post-vertical { width: 340px; height: 425px; } /* 4:5 */
-.formato-post-cuadrado { width: 340px; height: 340px; } /* 1:1 */
-.formato-historia { width: 320px; height: 568px; }      /* 9:16 */
+/* Tamaños Mobile Optimizados */
+.formato-post-vertical { width: 320px; height: 400px; } /* 4:5 */
+.formato-post-cuadrado { width: 320px; height: 320px; } /* 1:1 */
+.formato-historia { width: 300px; height: 533px; }      /* 9:16 */
 
-/* 🏷️ CAPA DEL LOGO EN MARCA DE AGUA */
+/* 🏷️ LOGO MARCA DE AGUA */
 .logo-marca-agua {
     position: absolute; z-index: 5;
     background-repeat: no-repeat !important;
@@ -92,71 +95,93 @@ body {
 .arriba-izquierda { top: 15px; left: 15px; }
 .centro-gigante { top: 50%; left: 50%; transform: translate(-50%, -50%); }
 
-
-/* 🛠️ PANEL DE CONTROLES ESTILO APP */
+/* ==========================================================================
+   🛠️ PANEL DE CONTROLES ENFOCADO Y AGRANDADO (MÓVIL FIRST)
+   ========================================================================== */
 .panel-control {
     width: 100%; background: var(--bg-card); 
-    padding: 25px 20px; box-sizing: border-box;
-    border-top: 1px solid var(--border);
-    display: flex; flex-direction: column; gap: 20px;
-    order: 2; /* Los controles van abajo para operar cómodos con el pulgar */
-    border-radius: 24px 24px 0 0; /* Curvatura tipo tarjeta moderna */
-    box-shadow: 0 -10px 25px rgba(0,0,0,0.3);
+    padding: 30px 24px; box-sizing: border-box;
+    border-top: 2px solid var(--border);
+    display: flex; flex-direction: column; 
+    gap: 25px; /* Más espacio entre controles para evitar amontonamiento */
+    order: 2; 
+    border-radius: 32px 32px 0 0; /* Curvatura más marcada y moderna */
+    box-shadow: 0 -15px 35px rgba(0,0,0,0.4);
 }
 
-.header-saas { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
-.header-saas h2 { margin: 0; font-size: 18px; font-weight: 700; letter-spacing: -0.5px; }
+.header-saas { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); padding-bottom: 18px; }
+.header-saas h2 { margin: 0; font-size: 22px; font-weight: 800; letter-spacing: -0.5px; }
 .badge-creditos {
-    background: rgba(16, 185, 129, 0.15); color: var(--success); padding: 6px 14px;
-    border-radius: 50px; font-size: 13px; font-weight: 600; border: 1px solid rgba(16, 185, 129, 0.3);
+    background: rgba(16, 185, 129, 0.12); color: var(--success); padding: 8px 16px;
+    border-radius: 50px; font-size: 14px; font-weight: 700; border: 1px solid rgba(16, 185, 129, 0.25);
 }
 
-.campo { display: flex; flex-direction: column; gap: 8px; }
-.campo label { font-size: 13px; font-weight: 600; color: var(--text-muted); }
+/* 🎛️ TARJETAS INDEPENDIENTES PARA CADA CONTROL */
+.campo { 
+    display: flex; flex-direction: column; 
+    gap: 12px; /* Más espacio interno */
+}
+.campo label { 
+    font-size: 14px; /* Texto más grande y legible */
+    font-weight: 700; 
+    color: var(--text-main); 
+    text-transform: uppercase; letter-spacing: 0.5px;
+}
 
-/* Estilización de Inputs Modernos */
+/* Selectores gigantes y robustos para dedos grandes */
 .campo select {
-    background: var(--bg-input); border: 1px solid var(--border); padding: 12px; 
-    color: #fff; border-radius: 10px; font-size: 14px; cursor: pointer;
-    appearance: none; -webkit-appearance: none; /* Saca la flecha nativa fea */
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
-    background-repeat: no-repeat; background-position: right 12px center; background-size: 16px;
+    background: var(--bg-input); border: 2px solid var(--border); 
+    padding: 16px; /* Más padding para que sea un botón gordo cómodo */
+    color: #fff; border-radius: 14px; font-size: 15px; font-weight: 600; cursor: pointer;
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'></polyline></svg>");
+    background-repeat: no-repeat; background-position: right 16px center; background-size: 18px;
+    transition: border-color 0.2s;
 }
+.campo select:focus { border-color: var(--accent); outline: none; }
+
+/* Input de tipo archivo robusto */
 .campo input[type="file"] {
-    background: var(--bg-input); border: 1px solid var(--border); padding: 10px; 
-    color: var(--text-muted); border-radius: 10px; font-size: 13px;
+    background: var(--bg-input); border: 2px dashed var(--border); 
+    padding: 16px; color: var(--text-muted); border-radius: 14px; font-size: 14px;
+    cursor: pointer;
 }
-/* File input button personalizado estilo pro */
 .campo input[type="file"]::-webkit-file-upload-button {
-    background: var(--border); border: none; color: #fff; padding: 6px 12px;
-    border-radius: 6px; font-weight: bold; margin-right: 10px; cursor: pointer;
+    background: var(--accent); border: none; color: #fff; padding: 8px 16px;
+    border-radius: 8px; font-weight: bold; margin-right: 12px; cursor: pointer;
 }
 
+/* 🎚️ Sliders Estilizados Modernos */
 .campo input[type="range"] { 
-    accent-color: var(--accent); height: 6px; border-radius: 50px; background: var(--bg-input); cursor: pointer;
+    accent-color: var(--accent); 
+    height: 10px; /* Barra más gruesa fácil de arrastrar */
+    border-radius: 50px; background: var(--bg-input); cursor: pointer;
+    margin: 8px 0;
 }
 
-.acciones-panel { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; }
+/* 📥 BOTÓN DE ACCIÓN PRINCIPAL (ENFASIS MÁXIMO) */
+.acciones-panel { display: flex; flex-direction: column; gap: 15px; margin-top: 10px; }
 .btn-descarga-sp {
-    width: 100%; padding: 16px; border: none; border-radius: 12px;
-    background: var(--accent); color: #fff; font-weight: bold; font-size: 15px; 
-    cursor: pointer; box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
-    transition: background 0.2s, transform 0.1s;
+    width: 100%; padding: 18px; border: none; border-radius: 16px;
+    background: var(--accent-gradient); /* Degradé llamativo */
+    color: #fff; font-weight: 800; font-size: 16px; text-transform: uppercase; letter-spacing: 0.5px;
+    cursor: pointer; box-shadow: 0 8px 24px rgba(37, 99, 235, 0.4);
+    transition: transform 0.1s, box-shadow 0.2s;
 }
-.btn-descarga-sp:active { transform: scale(0.98); }
-.btn-descarga-sp:disabled { background: #2e2e3a !important; color: #555; cursor: not-allowed; box-shadow: none; }
-.btn-logout { background: transparent; border: none; color: #ef4444; cursor: pointer; font-size: 13px; font-weight: 500; align-self: center; }
+.btn-descarga-sp:active { transform: scale(0.97); }
+.btn-descarga-sp:disabled { background: #222230 !important; color: #555; cursor: not-allowed; box-shadow: none; }
+.btn-logout { background: transparent; border: none; color: #ef4444; cursor: pointer; font-size: 14px; font-weight: 600; align-self: center; padding: 5px; }
 
-.error-msg { color: #ef4444; font-size: 13px; margin-top: 10px; font-weight: bold; }
+.error-msg { color: #ef4444; font-size: 14px; margin-top: 10px; font-weight: bold; }
 
 /* ==========================================================================
-   💻 RESPONSIVE DESIGN (Para Computadora / Pantallas Grandes)
+   💻 DISEÑO RESPONSIVE MODO COMPUTADORA
    ========================================================================== */
 @media (min-width: 992px) {
     .interfaz-contenedor { flex-direction: row; }
-    .panel-control { width: 380px; height: 100vh; border-radius: 0; border-top: none; border-right: 1px solid var(--border); order: 1; }
-    .zona-placa { order: 2; padding: 40px; }
-    .formato-post-vertical { width: 500px; height: 625px; } 
-    .formato-post-cuadrado { width: 500px; height: 500px; } 
-    .formato-historia { width: 360px; height: 640px; }
+    .panel-control { width: 400px; height: 100vh; border-radius: 0; border-top: none; border-right: 2px solid var(--border); order: 1; }
+    .zona-placa { order: 2; padding: 45px; }
+    .formato-post-vertical { width: 480px; height: 600px; } 
+    .formato-post-cuadrado { width: 480px; height: 480px; } 
+    .formato-historia { width: 340px; height: 604px; }
 }
