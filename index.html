@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watermark SaaS - CapsulaWebs</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+<body>
+
+    <div id="pantalla-token" class="modal-token">
+        <div class="modal-contenido">
+            <h2>Ingresar Token de Acceso</h2>
+            <p>Introduce el código provisto por CapsulaWebs para activar tus créditos.</p>
+            <input type="text" id="input-token" placeholder="Ej: EMREPRENDER2026">
+            <button onclick="validarToken()">Activar Cuenta</button>
+            <div id="error-token" class="error-msg"></div>
+        </div>
+    </div>
+
+    <div class="interfaz-contenedor view-oculta" id="interfaz-principal">
+        
+        <div class="panel-control">
+            <div class="header-saas">
+                <h2>Watermark Pro</h2>
+                <div class="badge-creditos">Fotos restantes: <span id="contador-creditos">0</span></div>
+            </div>
+            
+            <div class="campo">
+                <label>1. Formato de Instagram:</label>
+                <select id="select-formato">
+                    <option value="post-vertical">📸 Post Feed Vertical (4:5)</option>
+                    <option value="post-cuadrado">🔳 Post Feed Cuadrado (1:1)</option>
+                    <option value="historia">📱 Historia / Reel (9:16)</option>
+                </select>
+            </div>
+            
+            <div class="campo">
+                <label>2. Foto del Producto:</label>
+                <input type="file" id="input-foto" accept="image/*">
+            </div>
+
+            <div class="campo">
+                <label>3. Posición del Logo:</label>
+                <select id="select-posicion">
+                    <option value="abajo-derecha">Abajo a la Derecha</option>
+                    <option value="abajo-izquierda">Abajo a la Izquierda</option>
+                    <option value="arriba-derecha">Arriba a la Derecha</option>
+                    <option value="arriba-izquierda">Arriba a la Izquierda</option>
+                    <option value="centro-gigante">Centro (Marca de Agua Gigante)</option>
+                </select>
+            </div>
+
+            <div class="campo">
+                <label>4. Opacidad del Logo:</label>
+                <input type="range" id="range-opacidad" min="0.1" max="1" step="0.05" value="0.85">
+            </div>
+
+            <div class="campo">
+                <label>5. Tamaño del Logo (%):</label>
+                <input type="range" id="range-tamano" min="10" max="80" step="5" value="30">
+            </div>
+            
+            <div class="acciones-panel">
+                <button type="button" class="btn-descarga-sp" id="btn-descargar" onclick="procesarDescarga()">📥 Descargar Imagen Lista</button>
+                <button type="button" class="btn-logout" onclick="cerrarSesion()">Cerrar Sesión</button>
+            </div>
+        </div>
+
+        <div class="zona-placa">
+            <div class="lienzo-producto formato-post-vertical" id="lienzo-objetivo">
+                
+                <div class="foto-fondo" id="placa-foto" style="background-image: url('https://via.placeholder.com/800x1000/222/fff?text=Subí+tu+Producto');"></div>
+                
+                <div class="logo-marca-agua abajo-derecha" id="placa-logo"></div>
+                
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

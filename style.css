@@ -1,0 +1,93 @@
+body {
+    margin: 0; padding: 0;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #111116; color: #fff;
+}
+.interfaz-contenedor { display: flex; flex-direction: row; min-height: 100vh; }
+.view-oculta { display: none !important; }
+
+/* 🔑 PANTALLA LOGIN TOKEN */
+.modal-token {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: #09090c; display: flex; justify-content: center; align-items: center; z-index: 100;
+}
+.modal-contenido {
+    background: #1a1a24; padding: 40px; border-radius: 12px; border: 1px solid #2a2a3a;
+    text-align: center; max-width: 400px; width: 90%;
+}
+.modal-contenido h2 { margin-top: 0; color: #007bff; }
+.modal-contenido p { color: #aaa; font-size: 14px; margin-bottom: 20px; }
+.modal-contenido input {
+    width: 100%; padding: 12px; background: #111116; border: 1px solid #3a3a52;
+    color: #fff; border-radius: 6px; text-align: center; font-size: 16px; font-weight: bold;
+    box-sizing: border-box; margin-bottom: 15px;
+}
+.modal-contenido button {
+    width: 100%; padding: 12px; background: #007bff; color: #fff; border: none;
+    font-weight: bold; border-radius: 6px; cursor: pointer; font-size: 15px;
+}
+
+/* 💻 INTERFAZ PRINCIPAL */
+.panel-control {
+    width: 350px; background: #1a1a24; padding: 25px;
+    box-sizing: border-box; border-right: 1px solid #2a2a3a;
+    display: flex; flex-direction: column; gap: 18px;
+    height: 100vh; overflow-y: auto;
+}
+.header-saas h2 { margin: 0 0 5px 0; font-size: 20px; }
+.badge-creditos {
+    background: #1e3a24; color: #63e283; padding: 6px 12px;
+    border-radius: 20px; font-size: 12px; font-weight: bold; display: inline-block;
+}
+.campo { display: flex; flex-direction: column; gap: 6px; }
+.campo label { font-size: 12px; font-weight: bold; color: #ccc; }
+.campo select, .campo input[type="file"] {
+    background: #111116; border: 1px solid #3a3a52; padding: 10px; color: #fff; border-radius: 6px;
+}
+.campo input[type="range"] { accent-color: #007bff; cursor: pointer; }
+
+.acciones-panel { margin-top: auto; display: flex; flex-direction: column; gap: 10px; padding-top: 15px; }
+.btn-descarga-sp {
+    width: 100%; padding: 14px; border: none; border-radius: 8px;
+    background: #007bff; color: #fff; font-weight: bold; font-size: 14px; cursor: pointer;
+}
+.btn-descarga-sp:disabled { background: #333 !important; color: #777; cursor: not-allowed; }
+.btn-logout { background: transparent; border: none; color: #ff4d4d; cursor: pointer; font-size: 12px; margin-top: 5px; }
+
+.zona-placa { flex: 1; display: flex; justify-content: center; align-items: center; padding: 20px; background: #09090c; }
+
+/* 🖼️ LIENZO DE FORMATOS (ASPECT RATIO INSTAGRAM) */
+.lienzo-producto {
+    position: relative; overflow: hidden; background: #000;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.foto-fondo { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: 1; }
+
+/* Dynamic Layout Classes */
+.formato-post-vertical { width: 440px; height: 550px; } /* 4:5 */
+.formato-post-cuadrado { width: 480px; height: 480px; } /* 1:1 */
+.formato-historia { width: 337px; height: 600px; }      /* 9:16 */
+
+/* 🏷️ LOGO CAPA EN MARCA DE AGUA */
+.logo-marca-agua {
+    position: absolute; z-index: 5;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: contain !important;
+    pointer-events: none;
+}
+
+/* Clases de Posicionamiento Quirúrgico */
+.abajo-derecha { bottom: 20px; right: 20px; }
+.abajo-izquierda { bottom: 20px; left: 20px; }
+.arriba-derecha { top: 20px; right: 20px; }
+.arriba-izquierda { top: 20px; left: 20px; }
+.centro-gigante { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+
+.error-msg { color: #ff4d4d; font-size: 13px; margin-top: 10px; font-weight: bold; }
+
+@media (max-width: 768px) {
+    .interfaz-contenedor { flex-direction: column; }
+    .panel-control { width: 100%; height: auto; }
+    .lienzo-producto { transform: scale(0.8); }
+}
